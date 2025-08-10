@@ -263,26 +263,50 @@
           min-width: auto;
           max-width: none;
           height: auto;
-          max-height: 200px;
-          overflow-x: auto;
-          overflow-y: hidden;
+          max-height: 40vh;
+          /* Increased height - 40% of viewport */
+          overflow-x: hidden;
+          overflow-y: auto;
+          /* Allow vertical scrolling */
           border-right: none;
           border-bottom: 1px solid #1f2937;
+          /* Add scrollbar styling */
+          scrollbar-width: thin;
+          scrollbar-color: #374151 #1f2937;
+        }
+
+        /* Webkit scrollbar styling for mobile */
+        .sidebar::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+          background: #1f2937;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+          background: #374151;
+          border-radius: 3px;
         }
 
         .sidebar button {
-          display: inline-block;
-          white-space: nowrap;
-          min-width: 200px;
-          font-size: 12px;
-          padding: 8px 12px;
+          display: block;
+          /* Changed back to block */
+          white-space: normal;
+          /* Allow text wrapping */
+          min-width: auto;
+          width: 100%;
+          font-size: 13px;
+          padding: 10px 12px;
+          text-align: left;
         }
 
         .slide {
           height: auto;
-          min-height: calc(100vh - 264px);
-          /* Adjusted for mobile header + sidebar */
+          min-height: calc(100vh - 300px);
+          /* Adjusted for larger sidebar */
           padding: 16px;
+          overflow-y: auto;
         }
 
         header {
@@ -345,8 +369,25 @@
         }
       }
 
-      /* Extra small screens (phones in portrait) */
+      /* Extra small screens - Collapsible sidebar option */
       @media (max-width: 480px) {
+        .sidebar {
+          max-height: 35vh;
+          /* Slightly smaller for very small screens */
+        }
+
+        /* Add a visual indicator that sidebar is scrollable */
+        .sidebar::after {
+          content: "⇅ Scroll to see all slides";
+          display: block;
+          text-align: center;
+          font-size: 10px;
+          color: var(--muted);
+          padding: 5px;
+          background: #0b1220;
+          border-top: 1px solid #1f2937;
+        }
+
         header {
           padding: 8px 12px;
         }
@@ -359,19 +400,14 @@
           font-size: 11px;
         }
 
-        .sidebar {
-          max-height: 150px;
-        }
-
         .sidebar button {
-          min-width: 150px;
-          font-size: 11px;
-          padding: 6px 10px;
+          font-size: 12px;
+          padding: 8px 10px;
         }
 
         .slide {
           padding: 12px;
-          min-height: calc(100vh - 214px);
+          min-height: calc(100vh - 250px);
         }
 
         h2 {
@@ -399,13 +435,19 @@
         }
 
         .sidebar {
-          width: 250px;
+          width: 280px;
+          /* Slightly wider for landscape */
           height: calc(100vh - 60px);
           max-height: none;
           overflow-y: auto;
           overflow-x: hidden;
           border-right: 1px solid #1f2937;
           border-bottom: none;
+        }
+
+        .sidebar::after {
+          display: none;
+          /* Hide scroll indicator in landscape */
         }
 
         .sidebar button {
