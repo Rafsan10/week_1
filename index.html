@@ -1,83 +1,291 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>C++ Conditionals & Logic — Beginner (with explanations)</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  :root { --bg:#0f172a; --fg:#e2e8f0; --muted:#94a3b8; --accent:#22c55e; --card:#111827; --code:#0b1020; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family:Inter, Segoe UI, Arial, system-ui; background:var(--bg); color:var(--fg); }
-  header { padding:16px 24px; border-bottom:1px solid #1f2937; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-  h1 { font-size:20px; margin:0; }
-  .deck { display:flex; height:calc(100vh - 64px); }
-  .sidebar { width:320px; min-width:240px; max-width:420px; overflow:auto; border-right:1px solid #1f2937; background:#0b1220; }
-  .sidebar button { width:100%; text-align:left; padding:10px 14px; background:transparent; border:none; color:var(--muted); cursor:pointer; border-bottom:1px solid #1f2937; font-size:14px; }
-  .sidebar button.active { color:var(--fg); background:#0b152a; }
-  .slide { flex:1; overflow:auto; padding:24px; }
-  h2 { margin:0 0 6px 0; }
-  .lede { color:var(--muted); margin:0 0 14px 0; }
-  .card { background:var(--card); border:1px solid #1f2937; padding:14px; border-radius:10px; margin:14px 0; }
-  .key { color:#86efac; font-weight:600; background:#0d1b2a; border:1px solid #1e293b; padding:0 6px; border-radius:6px; }
-  pre { background:var(--code); padding:12px; border-radius:8px; overflow:auto; margin:10px 0 0; }
-  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:14px; }
-  .actions { display:flex; gap:8px; margin-top:8px; }
-  .btn { background:#1f2937; color:var(--fg); border:1px solid #334155; padding:6px 10px; border-radius:6px; cursor:pointer; }
-  .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  ul,ol { margin:0 0 10px 18px; }
-  footer { position:fixed; bottom:10px; right:14px; color:var(--muted); font-size:12px; }
-  .kbd { background:#1f2937; border:1px solid #334155; padding:2px 6px; border-radius:6px; }
-</style>
+  <head>
+    <meta charset="utf-8">
+    <title>C++ Conditionals & Logic — Beginner (with explanations)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      :root {
+        --bg: #0f172a;
+        --fg: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #22c55e;
+        --card: #111827;
+        --code: #0b1020;
+      }
 
-<!-- Theme CSS for highlight.js -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+      * {
+        box-sizing: border-box;
+      }
 
-<!-- Defer loading and init of highlight.js until after DOM is ready -->
-<script>
-  // Helper to load a script with onload/onerror
-  function loadScript(src) {
-    return new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = src;
-      s.async = true;
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error('Failed to load ' + src));
-      document.head.appendChild(s);
-    });
-  }
+      body {
+        margin: 0;
+        font-family: Inter, Segoe UI, Arial, system-ui;
+        background: var(--bg);
+        color: var(--fg);
+      }
 
-  // Load HLJS core, then the C++ language, then init when slides are first rendered
-  let hljsReady = (async () => {
-    // Load core first
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js');
-    // Load C++ language module
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js');
-    // Register is automatic for cdn build; just return ready
-    return true;
-  })().catch(() => false); // if CDN blocked, continue without crashing
-</script>
-</head>
-<body>
-<header>
-  <h1>C++ Conditionals & Logic — Beginner Friendly (CP)</h1>
-  <div class="lede">Instructor: rafsan hasan — Duration: 3 hours</div>
-  <div class="lede">Use <span class="kbd">←</span> <span class="kbd">→</span> to navigate</div>
-</header>
-<div class="deck">
-  <nav class="sidebar" id="nav" aria-label="Slides navigation"></nav>
-  <main class="slide" id="content" tabindex="0" aria-live="polite"></main>
-</div>
-<footer>Tip: Compile locally with: g++ -std=gnu++17 main.cpp -O2 -o main</footer>
+      header {
+        padding: 16px 24px;
+        border-bottom: 1px solid #1f2937;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
 
-<script>
-const slides = [
-  {title:"Title", html:`<h2>Welcome</h2>
+      h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+
+      .deck {
+        display: flex;
+        height: calc(100vh - 64px);
+      }
+
+      .sidebar {
+        width: 320px;
+        min-width: 240px;
+        max-width: 420px;
+        overflow: auto;
+        border-right: 1px solid #1f2937;
+        background: #0b1220;
+      }
+
+      .sidebar button {
+        width: 100%;
+        text-align: left;
+        padding: 10px 14px;
+        background: transparent;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        border-bottom: 1px solid #1f2937;
+        font-size: 14px;
+      }
+
+      .sidebar button.active {
+        color: var(--fg);
+        background: #0b152a;
+      }
+
+      .slide {
+        flex: 1;
+        overflow: auto;
+        padding: 24px;
+      }
+
+      h2 {
+        margin: 0 0 6px 0;
+      }
+
+      .lede {
+        color: var(--muted);
+        margin: 0 0 14px 0;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid #1f2937;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 14px 0;
+      }
+
+      .key {
+        color: #86efac;
+        font-weight: 600;
+        background: #0d1b2a;
+        border: 1px solid #1e293b;
+        padding: 0 6px;
+        border-radius: 6px;
+      }
+
+      pre {
+        background: var(--code);
+        padding: 12px;
+        border-radius: 8px;
+        overflow: auto;
+        margin: 10px 0 0;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 14px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .btn {
+        background: #1f2937;
+        color: var(--fg);
+        border: 1px solid #334155;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .btn-details {
+        background: #065f46;
+        border-color: #047857;
+      }
+
+      .btn-details:hover {
+        background: #047857;
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      ul,
+      ol {
+        margin: 0 0 10px 18px;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 10px;
+        right: 14px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .kbd {
+        background: #1f2937;
+        border: 1px solid #334155;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      .modal-content {
+        background: var(--card);
+        margin: 5% auto;
+        padding: 24px;
+        border: 1px solid #374151;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      .modal h3 {
+        margin: 0 0 16px 0;
+        color: var(--accent);
+      }
+
+      .modal .close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .modal .close:hover {
+        color: var(--fg);
+      }
+
+      .modal pre {
+        background: #0a0f1d;
+        border: 1px solid #1f2937;
+      }
+
+      .modal .detail-section {
+        margin: 16px 0;
+      }
+
+      .modal .detail-section h4 {
+        color: #fbbf24;
+        margin: 0 0 8px 0;
+      }
+    </style>
+
+    <!-- Theme CSS for highlight.js -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+
+    <script>
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = src;
+          s.async = true;
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error('Failed to load ' + src));
+          document.head.appendChild(s);
+        });
+      }
+
+      let hljsReady = (async () => {
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js');
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js');
+        return true;
+      })().catch(() => false);
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>C++ Conditionals & Logic — Beginner Friendly (CP)</h1>
+      <div class="lede">Instructor: Rafsan Hasan — Duration: 3 hours</div>
+      <div class="lede">Use <span class="kbd">←</span> <span class="kbd">→</span> to navigate</div>
+    </header>
+    <div class="deck">
+      <nav class="sidebar" id="nav" aria-label="Slides navigation"></nav>
+      <main class="slide" id="content" tabindex="0" aria-live="polite"></main>
+    </div>
+    <footer>Tip: Compile locally with: g++ -std=gnu++17 main.cpp -O2 -o main</footer>
+
+    <!-- Modal for details -->
+    <div id="detailModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <script>
+      const slides = [
+        {
+          title: "Title", html: `
+    <h2>Welcome</h2>
     <p class="lede">Beginner-only session: no loops or data structures — focus on conditionals, safe types, I/O, and contest-style boolean logic. Each topic includes a concise explanation and a runnable example.</p>
     <div class="card"><strong>Class flow:</strong>
-      <ul><li>Concept mini-brief (1–3 min)</li><li>Type the example (2–4 min)</li><li>Discuss edge cases (1–2 min)</li></ul>
-    </div>`},
+      <ul>
+        <li>Concept mini-brief (1–3 min)</li>
+        <li>Type the example (2–4 min)</li>
+        <li>Discuss edge cases (1–2 min)</li>
+      </ul>
+    </div>
+  `},
 
-  {title:"Agenda", html:`<h2>Short Agenda</h2>
+        {
+          title: "Agenda", html: `
+    <h2>Short Agenda</h2>
     <ul>
       <li>Program skeleton & compilation</li>
       <li>Primitive data types, variables, constants</li>
@@ -87,12 +295,16 @@ const slides = [
       <li>Nested if, switch, ternary</li>
       <li>Boolean logic & short-circuiting</li>
       <li>Common CP patterns</li>
+      <li>Basics add-on: type casting, bit-size to value range, overflow, floating-point</li>
       <li>Practice set + solutions</li>
-    </ul>`},
+    </ul>
+  `},
 
-  {title:"Program Skeleton", html:`<h2>Program Skeleton</h2>
-    <p class="lede">Every C++ program starts with main(). Use iostream for basic I/O. Print with cout and end lines with '\\n' for speed.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Program Skeleton", html: `
+    <h2>Program Skeleton</h2>
+    <p class="lede">Every C++ program starts with main(). Use iostream for basic I/O. Print with cout and end lines with '\\n' for speed.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -100,9 +312,39 @@ int main() {
     return 0;
 }
 // Compile: g++ -std=gnu++17 main.cpp -O2 -o main
-// Run: ./main`},
+// Run: ./main`,
+          details: `
+    <h3>Program Structure Deep Dive</h3>
+    <div class="detail-section">
+      <h4>Compilation Process</h4>
+      <p>When you compile C++, several steps happen:</p>
+      <ul>
+        <li><strong>Preprocessing:</strong> #include directives copy header content</li>
+        <li><strong>Compilation:</strong> Source converted to object code</li>
+        <li><strong>Linking:</strong> Object files combined with libraries</li>
+      </ul>
+      <pre><code class="language-bash"># Verbose compilation to see steps:
+g++ -v -std=gnu++17 main.cpp -O2 -o main</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Why 'using namespace std;'?</h4>
+      <p>Without it, you'd write <code>std::cout</code> and <code>std::cin</code>. In competitive programming, brevity matters, but in production code, avoid it to prevent name conflicts.</p>
+      <pre><code class="language-cpp">// Without using namespace:
+#include <iostream>
+int main() {
+    std::cout << "Hello\\n";
+    return 0;
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Why return 0?</h4>
+      <p>The return value indicates program success (0) or failure (non-zero) to the operating system. Modern C++ allows omitting it from main(), but it's good practice to include it.</p>
+    </div>
+  `},
 
-  {title:"Data Types (Overview)", html:`<h2>Data Types</h2>
+        {
+          title: "Data Types (Overview)", html: `
+    <h2>Data Types</h2>
     <p class="lede">Pick the smallest type that safely holds your values. For integer math in CP, prefer <span class="key">long long</span> when ranges may exceed int.</p>
     <div class="grid">
       <div class="card"><strong>int</strong> — 32-bit signed, counts and small sums</div>
@@ -110,23 +352,54 @@ int main() {
       <div class="card"><strong>char</strong> — single character like 'A'</div>
       <div class="card"><strong>bool</strong> — true or false</div>
       <div class="card"><strong>double</strong> — floating point (prefer over float)</div>
-    </div>`,
-   code:`#include <iostream>
+    </div>
+  `, code: `#include <iostream>
+#include <climits>   // INT_MIN, INT_MAX, LLONG_MAX
+#include <cfloat>    // DBL_MAX
 using namespace std;
 
 int main() {
-    int a = 10;
-    long long b = 10000000000LL;
-    char c = 'x';
-    bool ok = true;
-    double pi = 3.1415926535;
-    cout << a << " " << b << " " << c << " " << ok << " " << pi << '\\n';
+    cout << "int range: " << INT_MIN << " .. " << INT_MAX << '\\n';
+    cout << "long long max: " << LLONG_MAX << '\\n';
+    cout << "double max ~ " << DBL_MAX << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Data Type Details & Memory Layout</h3>
+    <div class="detail-section">
+      <h4>Complete Type Sizes</h4>
+      <ul>
+        <li><strong>char:</strong> 1 byte, range -128 to 127 (or 0 to 255 if unsigned)</li>
+        <li><strong>short:</strong> 2 bytes, range -32,768 to 32,767</li>
+        <li><strong>int:</strong> 4 bytes, range -2,147,483,648 to 2,147,483,647</li>
+        <li><strong>long long:</strong> 8 bytes, range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807</li>
+        <li><strong>float:</strong> 4 bytes, ~7 decimal digits precision</li>
+        <li><strong>double:</strong> 8 bytes, ~15-17 decimal digits precision</li>
+      </ul>
+    </div>
+    <div class="detail-section">
+      <h4>Char as Number vs Character</h4>
+      <pre><code class="language-cpp">char c1 = 'A';     // Character literal
+char c2 = 65;      // Same as 'A' (ASCII value)
+char c3 = c1 + 1;  // 'B' (ASCII 66)
+cout << c1 << " " << (int)c1 << "\\n"; // Prints: A 65</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>When to Use Each Type</h4>
+      <ul>
+        <li><strong>int:</strong> Loop counters, small calculations, array indices</li>
+        <li><strong>long long:</strong> Large sums, products, factorial results, timestamps</li>
+        <li><strong>double:</strong> Mathematical calculations, averages, geometric computations</li>
+        <li><strong>bool:</strong> Flags, conditions, true/false states</li>
+      </ul>
+    </div>
+  `},
 
-  {title:"Variables & Constants", html:`<h2>Variables & Constants</h2>
-    <p class="lede">Use <span class="key">const</span> when a value must not change. Consider <span class="key">constexpr</span> for compile-time constants.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Variables & Constants", html: `
+    <h2>Variables & Constants</h2>
+    <p class="lede">Use <span class="key">const</span> when a value must not change. Consider <span class="key">constexpr</span> for compile-time constants.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -136,11 +409,37 @@ int main() {
     score = score + 1;
     cout << "score=" << score << ", MOD=" << MOD << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Constants & Variable Scope</h3>
+    <div class="detail-section">
+      <h4>const vs constexpr</h4>
+      <pre><code class="language-cpp">const int runtime_const = some_function();     // Value set at runtime
+constexpr int compile_const = 42;              // Value must be known at compile time
+constexpr int calc = 2 * 3 + 1;               // Computed at compile time</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Variable Initialization</h4>
+      <pre><code class="language-cpp">int a;          // Uninitialized - dangerous!
+int b = 0;      // Copy initialization
+int c(0);       // Direct initialization  
+int d{0};       // Uniform initialization (preferred)
+int e{};        // Zero initialization</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Common CP Constants</h4>
+      <pre><code class="language-cpp">const long long MOD = 1000000007LL;
+const long long INF = 1e18;
+const double PI = 3.141592653589793;
+const double EPS = 1e-9;</code></pre>
+    </div>
+  `},
 
-  {title:"Input / Output — Basics", html:`<h2>Input / Output</h2>
-    <p class="lede"><span class="key">cin</span> reads tokens (numbers/words), <span class="key">cout</span> prints values. Use '\\n' for newlines (faster than endl).</p>`,
-   code:`#include <iostream>
+        {
+          title: "Input / Output — Basics", html: `
+    <h2>Input / Output</h2>
+    <p class="lede"><span class="key">cin</span> reads tokens (numbers/words), <span class="key">cout</span> prints values. Use '\\n' for newlines (faster than endl).</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -148,11 +447,47 @@ int main() {
     cin >> a >> b; // input two integers
     cout << a << "+" << b << "=" << (a + b) << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>I/O Performance & Advanced Techniques</h3>
+    <div class="detail-section">
+      <h4>Speed Optimization</h4>
+      <pre><code class="language-cpp">// For competitive programming speed:
+ios_base::sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);</code></pre>
+      <p>This disables C stdio synchronization and unties cin from cout for faster I/O.</p>
+    </div>
+    <div class="detail-section">
+      <h4>Reading Different Data Types</h4>
+      <pre><code class="language-cpp">string word;
+char ch;
+double num;
+cin >> word >> ch >> num;
 
-  {title:"Basic Operators — Arithmetic", html:`<h2>Arithmetic Operators</h2>
-    <p class="lede">+ - * / % work on integers. Integer division truncates toward zero. Use 1LL * a * b to promote to 64-bit when multiplying.</p>`,
-   code:`#include <iostream>
+// Reading line with spaces:
+string line;
+getline(cin, line);
+
+// Reading until EOF:
+int x;
+while (cin >> x) {
+    // process x
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Output Formatting</h4>
+      <pre><code class="language-cpp">#include <iomanip>
+cout << fixed << setprecision(2) << 3.14159 << "\\n"; // 3.14
+cout << setw(5) << 42 << "\\n";                        // "   42"</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Basic Operators — Arithmetic", html: `
+    <h2>Arithmetic Operators</h2>
+    <p class="lede">+ - * / % work on integers. Integer division truncates toward zero. Use 1LL * a * b to promote to 64-bit when multiplying.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -162,11 +497,46 @@ int main() {
     long long big = 1LL * 100000 * 100000;      // prevent overflow
     cout << big << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Arithmetic Operations Deep Dive</h3>
+    <div class="detail-section">
+      <h4>Integer Division Behavior</h4>
+      <pre><code class="language-cpp">cout << 7 / 3 << "\\n";    // 2 (truncates toward zero)
+cout << -7 / 3 << "\\n";   // -2 (truncates toward zero)
+cout << 7 / -3 << "\\n";   // -2
+cout << -7 / -3 << "\\n";  // 2</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Modulo with Negative Numbers</h4>
+      <pre><code class="language-cpp">cout << 7 % 3 << "\\n";    // 1
+cout << -7 % 3 << "\\n";   // -1 (sign matches dividend)
+cout << 7 % -3 << "\\n";   // 1
+cout << -7 % -3 << "\\n";  // -1</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Overflow Prevention Techniques</h4>
+      <pre><code class="language-cpp">// Wrong: can overflow before assignment
+long long bad = a * b;
 
-  {title:"Basic Operators — Relational & Logical", html:`<h2>Relational & Logical</h2>
-    <p class="lede">Compare with == != &lt; &gt; &lt;= &gt;=. Combine with && (AND), || (OR), ! (NOT). In C++, true prints as 1 and false as 0.</p>`,
-   code:`#include <iostream>
+// Right: promote first operand
+long long good = 1LL * a * b;
+
+// Also right: explicit cast
+long long also_good = (long long)a * b;
+
+// For addition overflow check:
+if (a > LLONG_MAX - b) {
+    // Would overflow
+}</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Basic Operators — Relational & Logical", html: `
+    <h2>Relational & Logical</h2>
+    <p class="lede">Compare with == != &lt; &gt; &lt;= &gt;=. Combine with && (AND), || (OR), ! (NOT). In C++, true prints as 1 and false as 0.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -174,11 +544,42 @@ int main() {
     cout << (a < b) << ' ' << (a == b) << '\\n';
     cout << ((a < b) && (b > 0)) << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Comparison & Logic Details</h3>
+    <div class="detail-section">
+      <h4>Operator Precedence (Common Mistakes)</h4>
+      <pre><code class="language-cpp">// Dangerous - && has higher precedence than ==
+if (a == 1 || b == 2 && c == 3)  // Parsed as: a == 1 || (b == 2 && c == 3)
 
-  {title:"Comments & Formatting", html:`<h2>Comments & Formatting</h2>
-    <p class="lede">Comment intent, not the obvious. Use braces for clarity in teaching code. Consistent formatting reduces bugs.</p>`,
-   code:`#include <iostream>
+// Better - use parentheses
+if ((a == 1 || b == 2) && c == 3)
+if (a == 1 || (b == 2 && c == 3))</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Comparing Different Types</h4>
+      <pre><code class="language-cpp">int i = -1;
+unsigned u = 1;
+cout << (i < u) << "\\n";  // 0 (false!) - i is converted to huge unsigned
+
+// Safer:
+cout << (i < (int)u) << "\\n";  // 1 (true)</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Boolean Arithmetic</h4>
+      <pre><code class="language-cpp">bool a = true, b = false;
+cout << a + b << "\\n";        // 1 (true=1, false=0)
+cout << a * 5 << "\\n";        // 5
+cout << !a << "\\n";           // 0
+cout << !!a << "\\n";          // 1 (double negation)</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Comments & Formatting", html: `
+    <h2>Comments & Formatting</h2>
+    <p class="lede">Comment intent, not the obvious. Use braces for clarity in teaching code. Consistent formatting reduces bugs.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -187,11 +588,42 @@ int main() {
     int sum = a + b; /* temporary result */
     cout << sum << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Code Style & Documentation</h3>
+    <div class="detail-section">
+      <h4>Good vs Bad Comments</h4>
+      <pre><code class="language-cpp">// Bad - states the obvious
+int x = 5; // assign 5 to x
 
-  {title:"Conditionals: if / else if / else", html:`<h2>if / else if / else</h2>
-    <p class="lede">The first condition that evaluates to true runs its block; remaining branches are skipped.</p>`,
-   code:`#include <iostream>
+// Good - explains why or complex logic
+int max_students = 5; // classroom capacity limit
+int hash_val = (x * 31 + y) % MOD; // polynomial rolling hash</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Competitive Programming Comments</h4>
+      <pre><code class="language-cpp">// TODO: handle edge case when n=0
+// FIXME: this fails for negative inputs
+// NOTE: O(n log n) complexity here
+// HACK: weird problem constraint requires this
+int result = some_complex_formula; // from editorial solution</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Formatting Best Practices</h4>
+      <ul>
+        <li>Use consistent indentation (2 or 4 spaces)</li>
+        <li>Add spaces around operators: <code>a + b</code> not <code>a+b</code></li>
+        <li>Use braces even for single statements in if/while</li>
+        <li>Align similar lines for readability</li>
+      </ul>
+    </div>
+  `},
+
+        {
+          title: "Conditionals: if / else if / else", html: `
+    <h2>if / else if / else</h2>
+    <p class="lede">The first condition that evaluates to true runs its block; remaining branches are skipped.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -204,11 +636,60 @@ int main() {
         cout << "Zero\\n";
     }
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Conditional Logic Patterns</h3>
+    <div class="detail-section">
+      <h4>Common Conditional Patterns</h4>
+      <pre><code class="language-cpp">// Range checking
+if (x >= 1 && x <= 10) { /* valid range */ }
 
-  {title:"Nested Conditionals", html:`<h2>Nested Conditionals</h2>
-    <p class="lede">Place an if inside another to refine cases. Keep nesting shallow; refactor when it grows.</p>`,
-   code:`#include <iostream>
+// Multiple conditions
+if (score >= 90) grade = 'A';
+else if (score >= 80) grade = 'B';
+else if (score >= 70) grade = 'C';
+else grade = 'F';
+
+// Early return pattern
+if (invalid_input) return -1;
+// continue with valid processing...</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Performance Considerations</h4>
+      <p>Order conditions by likelihood - put most common cases first:</p>
+      <pre><code class="language-cpp">// If positive numbers are most common:
+if (x > 0) {
+    // most likely case first
+} else if (x < 0) {
+    // second most likely
+} else {
+    // x == 0, least likely
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Avoiding Deep Nesting</h4>
+      <pre><code class="language-cpp">// Bad - deep nesting
+if (a > 0) {
+    if (b > 0) {
+        if (c > 0) {
+            // deeply nested
+        }
+    }
+}
+
+// Better - early returns or guard clauses
+if (a <= 0) return;
+if (b <= 0) return;
+if (c <= 0) return;
+// main logic here</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Nested Conditionals", html: `
+    <h2>Nested Conditionals</h2>
+    <p class="lede">Place an if inside another to refine cases. Keep nesting shallow; refactor when it grows.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -220,11 +701,43 @@ int main() {
         cout << "Zero\\n";
     }
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Managing Complex Conditions</h3>
+    <div class="detail-section">
+      <h4>Flattening Nested Conditions</h4>
+      <pre><code class="language-cpp">// Instead of deep nesting:
+if (x != 0) {
+    if (x > 0) {
+        if (x % 2 == 0) {
+            cout << "Positive even\\n";
+        } else {
+            cout << "Positive odd\\n";
+        }
+    } else {
+        cout << "Negative\\n";
+    }
+} else {
+    cout << "Zero\\n";
+}
 
-  {title:"Switch Statement", html:`<h2>Switch</h2>
-    <p class="lede">Use switch when matching one variable against fixed values (int/char). Remember break to avoid fall-through.</p>`,
-   code:`#include <iostream>
+// Consider using compound conditions:
+if (x == 0) cout << "Zero\\n";
+else if (x > 0 && x % 2 == 0) cout << "Positive even\\n";
+else if (x > 0) cout << "Positive odd\\n";
+else cout << "Negative\\n";</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Nested vs Switch</h4>
+      <p>When checking one variable against multiple values, switch is often clearer than nested if-else.</p>
+    </div>
+  `},
+
+        {
+          title: "Switch Statement", html: `
+    <h2>Switch</h2>
+    <p class="lede">Use switch when matching one variable against fixed values (int/char). Remember break to avoid fall-through.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -236,11 +749,46 @@ int main() {
       default: cout << "Unknown\\n";
     }
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Switch Statement Advanced Usage</h3>
+    <div class="detail-section">
+      <h4>Fall-through Behavior</h4>
+      <pre><code class="language-cpp">// Intentional fall-through (no break)
+switch (month) {
+    case 12: case 1: case 2:
+        cout << "Winter\\n";
+        break;
+    case 3: case 4: case 5:
+        cout << "Spring\\n";
+        break;
+    case 6: case 7: case 8:
+        cout << "Summer\\n";
+        break;
+    default:
+        cout << "Fall\\n";
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Switch vs If-Else Performance</h4>
+      <p>Switch can be faster for many cases as compiler may generate jump tables, but modern compilers optimize both well.</p>
+    </div>
+    <div class="detail-section">
+      <h4>Switch Limitations</h4>
+      <ul>
+        <li>Only works with integral types (int, char, enum)</li>
+        <li>Case values must be compile-time constants</li>
+        <li>Cannot use ranges or complex conditions</li>
+        <li>Cannot switch on strings directly</li>
+      </ul>
+    </div>
+  `},
 
-  {title:"Ternary Operator", html:`<h2>Ternary</h2>
-    <p class="lede">(cond) ? a : b returns a value based on a condition. Use for short, clear choices.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Ternary Operator", html: `
+    <h2>Ternary</h2>
+    <p class="lede">(cond) ? a : b returns a value based on a condition. Use for short, clear choices.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -248,11 +796,51 @@ int main() {
     int mx = (a > b) ? a : b;
     cout << mx << '\\n';
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Ternary Operator Best Practices</h3>
+    <div class="detail-section">
+      <h4>When to Use Ternary</h4>
+      <pre><code class="language-cpp">// Good - simple assignment
+int max_val = (a > b) ? a : b;
+cout << (x >= 0 ? "non-negative" : "negative") << "\\n";
 
-  {title:"Boolean Logic & Compound Conditions", html:`<h2>Compound Conditions</h2>
-    <p class="lede">Combine comparisons with && and ||. Use parentheses to emphasize intent and avoid precedence mistakes.</p>`,
-   code:`#include <iostream>
+// Bad - complex expressions
+int result = (very_long_condition_here) ? 
+    complex_calculation_with_multiple_steps() :
+    another_complex_calculation_here();
+
+// Better as if-else:
+int result;
+if (very_long_condition_here) {
+    result = complex_calculation_with_multiple_steps();
+} else {
+    result = another_complex_calculation_here();
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Nested Ternary (Use Sparingly)</h4>
+      <pre><code class="language-cpp">// Readable nested ternary:
+string grade = (score >= 90) ? "A" : 
+               (score >= 80) ? "B" :
+               (score >= 70) ? "C" : "F";
+
+// Unreadable - avoid:
+int x = a ? b ? c : d ? e : f : g ? h : i;</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Type Considerations</h4>
+      <pre><code class="language-cpp">// Both branches must have compatible types
+int result = condition ? 42 : 3.14;  // result is double (promotes int)
+auto val = condition ? 1 : 2LL;      // val is long long</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Boolean Logic & Compound Conditions", html: `
+    <h2>Compound Conditions</h2>
+    <p class="lede">Combine comparisons with && and ||. Use parentheses to emphasize intent and avoid precedence mistakes.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -260,11 +848,47 @@ int main() {
     if (L <= x && x <= R) cout << "In range\\n";
     else                  cout << "Out of range\\n";
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Boolean Logic Deep Dive</h3>
+    <div class="detail-section">
+      <h4>De Morgan's Laws</h4>
+      <pre><code class="language-cpp">// !(A && B) is equivalent to (!A || !B)
+if (!(x > 0 && y > 0)) // same as:
+if (x <= 0 || y <= 0)
 
-  {title:"Short-circuiting (safety guards)", html:`<h2>Short-circuiting</h2>
-    <p class="lede">In A && B, if A is false, B is not evaluated. In A || B, if A is true, B is not evaluated. Use this to guard unsafe checks.</p>`,
-   code:`#include <iostream>
+// !(A || B) is equivalent to (!A && !B)  
+if (!(x == 0 || y == 0)) // same as:
+if (x != 0 && y != 0)</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Complex Range Checks</h4>
+      <pre><code class="language-cpp">// Point inside rectangle
+if (x >= x1 && x <= x2 && y >= y1 && y <= y2) { /* inside */ }
+
+// Value in multiple ranges
+if ((x >= 1 && x <= 10) || (x >= 20 && x <= 30)) { /* valid */ }
+
+// Excluding a range
+if (x < 5 || x > 15) { /* outside 5-15 range */ }</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Floating Point Comparisons</h4>
+      <pre><code class="language-cpp">// Never use == with floating point
+double a = 0.1 + 0.2;
+if (a == 0.3) { /* likely false! */ }
+
+// Use epsilon comparison
+const double EPS = 1e-9;
+if (abs(a - 0.3) < EPS) { /* correct */ }</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Short-circuiting (safety guards)", html: `
+    <h2>Short-circuiting</h2>
+    <p class="lede">In A && B, if A is false, B is not evaluated. In A || B, if A is true, B is not evaluated. Use this to guard unsafe checks.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -274,16 +898,55 @@ int main() {
         cout << "Good\\n";
     }
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Short-Circuit Evaluation</h3>
+    <div class="detail-section">
+      <h4>Safety Guards</h4>
+      <pre><code class="language-cpp">// Prevent division by zero
+if (b != 0 && a / b > 10) { /* safe */ }
 
-  {title:"Common CP Patterns (no loops)", html:`<h2>Common Patterns</h2>
+// Array bounds checking
+if (i >= 0 && i < n && arr[i] > threshold) { /* safe */ }
+
+// Pointer checking
+if (ptr != nullptr && ptr->value > 0) { /* safe */ }</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Performance Optimization</h4>
+      <pre><code class="language-cpp">// Put cheaper conditions first
+if (simple_check && expensive_function()) {
+    // expensive_function() only called if simple_check is true
+}
+
+// Put most likely false condition first for &&
+if (unlikely_condition && other_check) {
+    // other_check skipped most of the time
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Side Effects Warning</h4>
+      <pre><code class="language-cpp">// Dangerous - increment might not happen
+if (condition && ++counter > 10) { /* risky */ }
+
+// Better - separate the side effect
+if (condition) {
+    ++counter;
+    if (counter > 10) { /* clear intent */ }
+}</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Common CP Patterns (no loops)", html: `
+    <h2>Common Patterns</h2>
     <ul>
       <li><span class="key">Parity</span>: n % 2 == 0 (or !(n &amp; 1))</li>
       <li><span class="key">Range</span>: L <= x && x <= R</li>
       <li><span class="key">Divisible</span>: n % k == 0</li>
       <li><span class="key">Early guards</span>: handle special cases first (e.g., n == 0)</li>
-    </ul>`,
-   code:`#include <iostream>
+    </ul>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -291,9 +954,330 @@ int main() {
     if (n % 2 == 0 && n >= 0 && n <= 100) cout << "Even in \\n";
     else                                  cout << "Other\\n";
     return 0;
-}`},
+}`,
+          details: `
+    <h3>Competitive Programming Patterns</h3>
+    <div class="detail-section">
+      <h4>Bit Manipulation Patterns</h4>
+      <pre><code class="language-cpp">// Check if power of 2
+if (n > 0 && (n & (n-1)) == 0) { /* power of 2 */ }
 
-  {title:"Practice Set (No Loops)", html:`<h2>Practice Problems</h2>
+// Check specific bit
+if (n & (1 << k)) { /* k-th bit is set */ }
+
+// Toggle case (lowercase/uppercase)
+char c = 'A';
+char lower = c | 32;  // 'a'
+char upper = c & ~32; // 'A'</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Mathematical Patterns</h4>
+      <pre><code class="language-cpp">// Check if perfect square
+int root = sqrt(n);
+if (root * root == n) { /* perfect square */ }
+
+// Check if triangle number (1+2+...+k = n)
+int k = (-1 + sqrt(1 + 8*n)) / 2;
+if (k * (k+1) / 2 == n) { /* triangle number */ }
+
+// GCD quick check
+if (a % b == 0) { /* b divides a */ }</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>String/Character Patterns</h4>
+      <pre><code class="language-cpp">// Check if digit
+if (c >= '0' && c <= '9') { /* digit */ }
+
+// Check if uppercase letter
+if (c >= 'A' && c <= 'Z') { /* uppercase */ }
+
+// Convert digit char to int
+int digit = c - '0';
+
+// Check if vowel
+if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') { /* vowel */ }</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Basics Add-on — How n Bits Map to Values", html: `
+    <h2>How Many Values with n Bits?</h2>
+    <p class="lede">n bits encode <span class="key">2^n</span> distinct patterns. Unsigned uses them all for non-negative values; signed (two's complement) splits between negative and non-negative.</p>
+    <div class="card">
+      <ul>
+        <li>Unsigned n-bit: range 0 .. 2^n - 1</li>
+        <li>Signed n-bit (two's complement): range -2^(n-1) .. 2^(n-1) - 1</li>
+        <li>Example (32-bit signed int): -2,147,483,648 .. 2,147,483,647 (~2.1e9 positive values)</li>
+      </ul>
+    </div>
+  `, code: `#include <iostream>
+#include <limits>
+using namespace std;
+
+int main() {
+    cout << "unsigned 32-bit max: " << numeric_limits<uint32_t>::max() << "\\n";
+    cout << "signed 32-bit min: "  << numeric_limits<int32_t>::min()  << "\\n";
+    cout << "signed 32-bit max: "  << numeric_limits<int32_t>::max()  << "\\n";
+    return 0;
+}`,
+          details: `
+    <h3>Binary Representation & Two's Complement</h3>
+    <div class="detail-section">
+      <h4>Why 2^n Patterns?</h4>
+      <p>Each bit can be 0 or 1. With n bits, you have n independent choices, giving 2×2×...×2 = 2^n total combinations.</p>
+      <pre><code class="language-cpp">// 3 bits: 000, 001, 010, 011, 100, 101, 110, 111 = 8 patterns = 2^3</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Two's Complement Representation</h4>
+      <p>For signed integers, the highest bit is the sign bit:</p>
+      <ul>
+        <li>0 in highest bit = positive number</li>
+        <li>1 in highest bit = negative number</li>
+        <li>This splits 2^n patterns into roughly equal positive and negative ranges</li>
+        <li>One extra negative value due to 0 being positive</li>
+      </ul>
+      <pre><code class="language-cpp">// 8-bit signed: -128 to +127 (256 total values)
+// 32-bit signed: -2,147,483,648 to +2,147,483,647</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Memory and Storage</h4>
+      <pre><code class="language-cpp">cout << "Size of int: " << sizeof(int) << " bytes\\n";
+cout << "Size of long long: " << sizeof(long long) << " bytes\\n";
+cout << "Size of double: " << sizeof(double) << " bytes\\n";</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Basics Add-on — Type Casting", html: `
+    <h2>Type Casting (Conversions)</h2>
+    <p class="lede">Implicit conversions happen automatically; explicit casts are used when narrowing or changing category. Prefer safe, explicit casts when needed.</p>
+    <div class="card">
+      <ul>
+        <li>Implicit: int -> long long, int -> double (widening)</li>
+        <li>Narrowing: double -> int (fraction lost), long long -> int (overflow risk)</li>
+        <li>Use 1LL to promote arithmetic to 64-bit: <code>1LL * a * b</code></li>
+      </ul>
+    </div>
+  `, code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 1e9;           // 1,000,000,000
+    int b = 3;
+    long long bad = a * b; // overflow in int first! still UB/overflowed result
+    long long ok  = 1LL * a * b; // promoted to long long before multiply
+
+    double x = 3.7;
+    int xi = (int)x;       // 3 (fraction truncated)
+
+    cout << "bad=" << bad << "\\n";
+    cout << "ok="  << ok  << "\\n";
+    cout << "xi="  << xi  << "\\n";
+    return 0;
+}`,
+          details: `
+    <h3>Type Conversion Deep Dive</h3>
+    <div class="detail-section">
+      <h4>Implicit Conversions (Dangerous)</h4>
+      <pre><code class="language-cpp">// Narrowing conversions lose data
+long long big = 5000000000LL;
+int small = big;  // Undefined behavior! Value doesn't fit
+
+// Character to integer  
+char c = 'A';
+int ascii = c;    // 65 (implicit conversion)
+
+// Bool to integer
+bool flag = true;
+int val = flag;   // 1</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Explicit Casting Types</h4>
+      <pre><code class="language-cpp">// C-style cast (avoid in modern C++)
+int x = (int)3.14;
+
+// Static cast (preferred for basic types)
+int y = static_cast<int>(3.14);
+
+// When casting for arithmetic
+double avg = static_cast<double>(sum) / count;</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>char ↔ int Conversion Examples</h4>
+      <pre><code class="language-cpp">// char to int (ASCII value)
+char letter = 'A';
+int ascii_val = letter;         // 65
+int explicit_val = (int)letter; // 65 (same result, explicit)
+
+// int to char
+int num = 66;
+char ch = num;                  // 'B' 
+char safe_ch = (char)num;       // 'B' (explicit)
+
+// Digit conversion
+char digit = '5';
+int value = digit - '0';        // 5 (not 53!)
+
+// Danger zone - values outside char range
+int big = 300;
+char overflow = big;            // Undefined! char range is typically -128 to 127</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Safe Conversion Practices</h4>
+      <pre><code class="language-cpp">// Check range before casting
+if (value >= CHAR_MIN && value <= CHAR_MAX) {
+    char safe_char = static_cast<char>(value);
+}
+
+// Use appropriate types from the start
+unsigned char byte = 255;  // If you need 0-255 range
+signed char sbyte = -128;  // If you need signed byte</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Basics Add-on — Usual Arithmetic Conversions", html: `
+    <h2>Usual Arithmetic Conversions</h2>
+    <p class="lede">In mixed-type expressions, C++ promotes operands to a common type. Know the rule-of-thumb to avoid surprises.</p>
+    <div class="card">
+      <ul>
+        <li>If any operand is double, result is double.</li>
+        <li>Else if any is float, result is float.</li>
+        <li>Else integers: smaller types promote to int; then to a common signed/unsigned rank.</li>
+        <li>Mixing signed and unsigned may surprise; prefer same-signed types.</li>
+      </ul>
+    </div>
+  `, code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int i = 5; unsigned u = 7;
+    cout << (i < u) << "\\n"; // OK but compare carefully; prefer same-signed
+
+    cout << (5 / 2) << "\\n";     // 2 (integer division)
+    cout << (5 / 2.0) << "\\n";   // 2.5 (promoted to double)
+
+    short s = 30000, t = 2;       // short promoted to int before multiply
+    int prod = s * t;             // no overflow at short width; check int range though
+    cout << prod << "\\n";
+    return 0;
+}`,
+          details: `
+    <h3>Arithmetic Conversion Rules</h3>
+    <div class="detail-section">
+      <h4>Integer Promotion Hierarchy</h4>
+      <ol>
+        <li>char, short → int (if int can represent all values)</li>
+        <li>If both operands are signed or both unsigned, convert to higher rank</li>
+        <li>If unsigned has higher/equal rank, convert signed to unsigned</li>
+        <li>If signed can represent all unsigned values, convert unsigned to signed</li>
+        <li>Otherwise, convert both to unsigned version of signed type</li>
+      </ol>
+    </div>
+    <div class="detail-section">
+      <h4>Dangerous Signed/Unsigned Mixing</h4>
+      <pre><code class="language-cpp">int a = -1;
+unsigned b = 1;
+cout << (a < b) << "\\n";        // 0 (false!) 
+// -1 is converted to huge unsigned value
+
+// Safer alternatives:
+cout << (a < (int)b) << "\\n";   // 1 (true)
+cout << ((long long)a < b) << "\\n"; // 1 (true)</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Floating Point Promotion</h4>
+      <pre><code class="language-cpp">float f = 3.5f;
+double d = 2.1;
+auto result = f + d;             // result is double
+
+int i = 10;
+float average = i / 3;           // 3.0 (integer division first!)
+float correct = i / 3.0f;        // 3.33333 (promotes to float)</code></pre>
+    </div>
+  `},
+
+        {
+          title: "Basics Add-on — Floating-Point Gotchas", html: `
+    <h2>Floating-Point Basics</h2>
+    <p class="lede">double has about ~15–17 decimal digits of precision. Avoid equality checks; use eps. Large ints may not fit exactly.</p>
+    <div class="card">
+      <ul>
+        <li>Never compare doubles with ==; compare with tolerance.</li>
+        <li>Big integers beyond 2^53 cannot be represented exactly in double.</li>
+        <li>Cast after finishing integer math to keep precision.</li>
+      </ul>
+    </div>
+  `, code: `#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    double a = 0.1 * 3;        // not exactly 0.3 in binary
+    double b = 0.3;
+    double eps = 1e-9;
+    cout << (fabs(a - b) < eps ? "Close\\n" : "Not close\\n");
+
+    long long big = 9007199254740993LL; // 2^53 + 1
+    double d = (double)big;
+    cout << fixed;
+    cout << "big=" << big << "\\n";
+    cout << "double(big)=" << d << "\\n"; // may print 9007199254740992
+
+    // Cast late:
+    int x = 5, y = 2;
+    cout << (x / y) << "\\n";          // 2
+    cout << (x / (double)y) << "\\n";  // 2.5
+    return 0;
+}`,
+          details: `
+    <h3>IEEE 754 Floating Point</h3>
+    <div class="detail-section">
+      <h4>Why 0.1 + 0.2 ≠ 0.3?</h4>
+      <p>Binary floating point cannot exactly represent most decimal fractions. 0.1 in decimal is a repeating fraction in binary (like 1/3 in decimal).</p>
+      <pre><code class="language-cpp">#include <iomanip>
+cout << setprecision(17);
+double x = 0.1;
+cout << x << "\\n";  // 0.10000000000000001</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Safe Floating Point Comparison</h4>
+      <pre><code class="language-cpp">bool equal_eps(double a, double b, double eps = 1e-9) {
+    return fabs(a - b) < eps;
+}
+
+// Relative epsilon for very large/small numbers
+bool equal_rel(double a, double b, double rel_eps = 1e-9) {
+    return fabs(a - b) < rel_eps * max(fabs(a), fabs(b));
+}</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Integer Precision Limits</h4>
+      <pre><code class="language-cpp">// double can exactly represent integers up to 2^53
+long long safe = (1LL << 53);      // 9,007,199,254,740,992
+long long unsafe = safe + 1;       // 9,007,199,254,740,993
+
+double d1 = (double)safe;
+double d2 = (double)unsafe;
+cout << (d1 == d2) << "\\n";        // May be 1 (true)!</code></pre>
+    </div>
+    <div class="detail-section">
+      <h4>Special Values</h4>
+      <pre><code class="language-cpp">#include <limits>
+double inf = numeric_limits<double>::infinity();
+double nan = numeric_limits<double>::quiet_NaN();
+
+cout << (inf == inf) << "\\n";      // 1 (true)
+cout << (nan == nan) << "\\n";      // 0 (false!)
+cout << isnan(nan) << "\\n";        // 1 (true)
+cout << isinf(inf) << "\\n";        // 1 (true)</code></pre>
+    </div>
+  `},
+
+        // Practice problems and solutions remain the same...
+        {
+          title: "Practice Set (No Loops)", html: `
+    <h2>Practice Problems</h2>
     <ol>
       <li>Even or odd</li>
       <li>Max of two and max of three</li>
@@ -304,11 +1288,15 @@ int main() {
       <li>Range check — IN or OUT</li>
       <li>Power-of-two test (bitwise)</li>
     </ol>
-    <p class="lede">Try first. Solutions follow.</p>`},
+    <p class="lede">Try first. Solutions follow.</p>
+  `},
 
-  {title:"Solution — Even or Odd", html:`<h2>Solution: Even or Odd</h2>
-    <p class="lede">Check remainder by 2 or use the low bit with &amp; 1.</p>`,
-   code:`#include <iostream>
+        // Solutions slides remain the same as before...
+        {
+          title: "Solution — Even or Odd", html: `
+    <h2>Solution: Even or Odd</h2>
+    <p class="lede">Check remainder by 2 or use the low bit with &amp; 1.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -317,9 +1305,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Max of Three", html:`<h2>Solution: Max of Three</h2>
-    <p class="lede">Use nested max or nested ternary. max(a, max(b, c)) is clear and standard.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Max of Three", html: `
+    <h2>Solution: Max of Three</h2>
+    <p class="lede">Use nested max or nested ternary. max(a, max(b, c)) is clear and standard.</p>
+  `, code: `#include <iostream>
 #include <algorithm>
 using namespace std;
 
@@ -330,9 +1320,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Leap Year", html:`<h2>Solution: Leap Year</h2>
-    <p class="lede">Divisible by 4 and not by 100, unless divisible by 400.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Leap Year", html: `
+    <h2>Solution: Leap Year</h2>
+    <p class="lede">Divisible by 4 and not by 100, unless divisible by 400.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -342,9 +1334,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Vowel or Consonant", html:`<h2>Solution: Vowel or Consonant</h2>
-    <p class="lede">Normalize with tolower. Optionally validate alphabetic input.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Vowel or Consonant", html: `
+    <h2>Solution: Vowel or Consonant</h2>
+    <p class="lede">Normalize with tolower. Optionally validate alphabetic input.</p>
+  `, code: `#include <iostream>
 #include <cctype>
 using namespace std;
 
@@ -356,9 +1350,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Triangle Validity", html:`<h2>Solution: Triangle Validity</h2>
-    <p class="lede">Sides must be positive and satisfy all triangle inequalities.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Triangle Validity", html: `
+    <h2>Solution: Triangle Validity</h2>
+    <p class="lede">Sides must be positive and satisfy all triangle inequalities.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -371,9 +1367,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Simple Calculator", html:`<h2>Solution: Simple Calculator</h2>
-    <p class="lede">Guard division and modulo by zero. Read format: a op b (e.g., 8 / 2).</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Simple Calculator", html: `
+    <h2>Solution: Simple Calculator</h2>
+    <p class="lede">Guard division and modulo by zero. Read format: a op b (e.g., 8 / 2).</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -387,9 +1385,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Range Check", html:`<h2>Solution: Range Check</h2>
-    <p class="lede">Inclusive bounds: L <= x <= R.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Range Check", html: `
+    <h2>Solution: Range Check</h2>
+    <p class="lede">Inclusive bounds: L <= x <= R.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -398,9 +1398,11 @@ int main() {
     return 0;
 }`},
 
-  {title:"Solution — Power of Two", html:`<h2>Solution: Power of Two</h2>
-    <p class="lede">For n > 0, exactly one bit set: n &amp; (n-1) clears the lowest set bit. Result is zero only for powers of two.</p>`,
-   code:`#include <iostream>
+        {
+          title: "Solution — Power of Two", html: `
+    <h2>Solution: Power of Two</h2>
+    <p class="lede">For n > 0, exactly one bit set: n &amp; (n-1) clears the lowest set bit. Result is zero only for powers of two.</p>
+  `, code: `#include <iostream>
 using namespace std;
 
 int main() {
@@ -410,92 +1412,131 @@ int main() {
     return 0;
 }`},
 
-  {title:"Teaching Tips & Pitfalls", html:`<h2>Tips & Common Pitfalls</h2>
+        {
+          title: "Teaching Tips & Pitfalls", html: `
+    <h2>Tips & Common Pitfalls</h2>
     <ul>
       <li>Initialize variables before use.</li>
       <li>Use long long for large integer math.</li>
       <li>Integer division truncates; cast to double when needed.</li>
       <li>Parenthesize complex boolean expressions.</li>
       <li>When mixing cin and getline, handle the leftover newline (cin.ignore()).</li>
-    </ul>`},
+      <li>Prefer same-signed integer types when comparing.</li>
+    </ul>
+  `},
 
-  {title:"Activities & Next Steps", html:`<h2>Activities & Next Steps</h2>
+        {
+          title: "Activities & Next Steps", html: `
+    <h2>Activities & Next Steps</h2>
     <ul>
       <li>Live type the 8 problems and compare answers.</li>
       <li>Peer review edge cases: negatives, zero, large values.</li>
       <li>Quiz: operator precedence and short-circuiting.</li>
       <li>Next class: loops (for/while), more CP patterns.</li>
-    </ul>`}
-];
+    </ul>
+  `}
+      ];
 
-function renderSlide(idx){
-  const s = slides[idx];
-  const content = document.getElementById('content');
-  let inner = '';
-  if (s.html) inner += s.html;
-  if (s.code) {
-    // Escape code for safe HTML, add language class for HLJS
-    const codeEscaped = s.code.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-    inner += `<div class="card">
+      function renderSlide(idx) {
+        const s = slides[idx];
+        const content = document.getElementById('content');
+        let inner = '';
+        if (s.html) inner += s.html;
+        if (s.code) {
+          const codeEscaped = s.code.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          inner += `<div class="card">
       <div><strong>Example</strong></div>
       <pre><code class="language-cpp">${codeEscaped}</code></pre>
       <div class="actions">
         <button class="btn" onclick="copyCode(${idx})">Copy code</button>
+        ${s.details ? `<button class="btn btn-details" onclick="showDetails(${idx})">🔍 Explore Details</button>` : ''}
       </div>
     </div>`;
-  }
-  content.innerHTML = inner;
+        } else if (s.details) {
+          inner += `<div class="actions" style="margin-top: 16px;">
+      <button class="btn btn-details" onclick="showDetails(${idx})">🔍 Explore Details</button>
+    </div>`;
+        }
+        content.innerHTML = inner;
 
-  // Update nav active state
-  document.querySelectorAll('.sidebar button').forEach((b,i)=>b.classList.toggle('active', i===idx));
+        document.querySelectorAll('.sidebar button').forEach((b, i) => b.classList.toggle('active', i === idx));
 
-  // If highlight.js loaded, highlight now
-  if (window.hljs) {
-    content.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
-  }
+        if (window.hljs) {
+          content.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+        }
 
-  content.focus();
-}
+        content.focus();
+      }
 
-function copyCode(idx){
-  const s = slides[idx];
-  if (!s.code) return;
-  navigator.clipboard.writeText(s.code)
-    .then(()=>alert('Code copied to clipboard'))
-    .catch(()=>alert('Copy failed'));
-}
+      function copyCode(idx) {
+        const s = slides[idx];
+        if (!s.code) return;
+        navigator.clipboard.writeText(s.code)
+          .then(() => alert('Code copied to clipboard'))
+          .catch(() => alert('Copy failed'));
+      }
 
-function initNav(){
-  const nav = document.getElementById('nav');
-  slides.forEach((s,i)=>{
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.textContent = (i+1).toString().padStart(2,'0') + " — " + s.title;
-    btn.onclick = ()=>renderSlide(i);
-    nav.appendChild(btn);
-  });
-  // keyboard navigation
-  window.addEventListener('keydown', e=>{
-    const buttons = [...document.querySelectorAll('.sidebar button')];
-    const active = buttons.findIndex(b=>b.classList.contains('active'));
-    if (e.key === 'ArrowRight') { e.preventDefault(); renderSlide((active+1)%slides.length); }
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); renderSlide((active-1+slides.length)%slides.length); }
-  });
-}
+      function showDetails(idx) {
+        const s = slides[idx];
+        if (!s.details) return;
 
-// Boot: render first slide, then init HLJS if ready, then highlight
-document.addEventListener('DOMContentLoaded', async () => {
-  initNav();
-  renderSlide(0);
+        const modal = document.getElementById('detailModal');
+        const modalContent = document.getElementById('modalContent');
+        modalContent.innerHTML = s.details;
 
-  if (await hljsReady && window.hljs) {
-    // Configure if desired, then highlight anything present
-    hljs.highlightAll();
-  } else {
-    // HLJS not available (offline/CDN blocked). Code will remain unhighlighted, no errors thrown.
-    console.warn('Highlight.js failed to load; proceeding without syntax highlighting.');
-  }
-});
-</script>
-</body>
+        // Highlight code in modal if hljs is available
+        if (window.hljs) {
+          modalContent.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+        }
+
+        modal.style.display = 'block';
+      }
+
+      function initNav() {
+        const nav = document.getElementById('nav');
+        slides.forEach((s, i) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = (i + 1).toString().padStart(2, '0') + " — " + s.title;
+          btn.onclick = () => renderSlide(i);
+          nav.appendChild(btn);
+        });
+
+        window.addEventListener('keydown', e => {
+          const buttons = [...document.querySelectorAll('.sidebar button')];
+          const active = buttons.findIndex(b => b.classList.contains('active'));
+          if (e.key === 'ArrowRight') { e.preventDefault(); renderSlide((active + 1) % slides.length); }
+          if (e.key === 'ArrowLeft') { e.preventDefault(); renderSlide((active - 1 + slides.length) % slides.length); }
+          if (e.key === 'Escape') {
+            document.getElementById('detailModal').style.display = 'none';
+          }
+        });
+      }
+
+      // Modal close functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('detailModal');
+        const closeBtn = modal.querySelector('.close');
+
+        closeBtn.onclick = () => modal.style.display = 'none';
+
+        window.onclick = (event) => {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        };
+      });
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        initNav();
+        renderSlide(0);
+
+        if (await hljsReady && window.hljs) {
+          hljs.highlightAll();
+        } else {
+          console.warn('Highlight.js failed to load; proceeding without syntax highlighting.');
+        }
+      });
+    </script>
+  </body>
 </html>
