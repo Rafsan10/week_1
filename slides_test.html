@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>C++ Conditionals & Logic — Beginner (with explanations)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --bg:#0f172a; --fg:#e2e8f0; --muted:#94a3b8; --accent:#22c55e; --card:#111827; --code:#0b1020; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:Inter, Segoe UI, Arial, system-ui; background:var(--bg); color:var(--fg); }
+  header { padding:16px 24px; border-bottom:1px solid #1f2937; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  h1 { font-size:20px; margin:0; }
+  .deck { display:flex; height:calc(100vh - 64px); }
+  .sidebar { width:320px; min-width:240px; max-width:420px; overflow:auto; border-right:1px solid #1f2937; background:#0b1220; }
+  .sidebar button { width:100%; text-align:left; padding:10px 14px; background:transparent; border:none; color:var(--muted); cursor:pointer; border-bottom:1px solid #1f2937; font-size:14px; }
+  .sidebar button.active { color:var(--fg); background:#0b152a; }
+  .slide { flex:1; overflow:auto; padding:24px; }
+  h2 { margin:0 0 6px 0; }
+  .lede { color:var(--muted); margin:0 0 14px 0; }
+  .card { background:var(--card); border:1px solid #1f2937; padding:14px; border-radius:10px; margin:14px 0; }
+  .key { color:#86efac; font-weight:600; background:#0d1b2a; border:1px solid #1e293b; padding:0 6px; border-radius:6px; }
+  pre { background:var(--code); padding:12px; border-radius:8px; overflow:auto; margin:10px 0 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:14px; }
+  .actions { display:flex; gap:8px; margin-top:8px; }
+  .btn { background:#1f2937; color:var(--fg); border:1px solid #334155; padding:6px 10px; border-radius:6px; cursor:pointer; }
+  .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  ul,ol { margin:0 0 10px 18px; }
+  footer { position:fixed; bottom:10px; right:14px; color:var(--muted); font-size:12px; }
+  .kbd { background:#1f2937; border:1px solid #334155; padding:2px 6px; border-radius:6px; }
+</style>
+
+<!-- Theme CSS for highlight.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+
+<!-- Defer loading and init of highlight.js until after DOM is ready -->
+<script>
+  // Helper to load a script with onload/onerror
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('Failed to load ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  // Load HLJS core, then the C++ language, then init when slides are first rendered
+  let hljsReady = (async () => {
+    // Load core first
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js');
+    // Load C++ language module
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js');
+    // Register is automatic for cdn build; just return ready
+    return true;
+  })().catch(() => false); // if CDN blocked, continue without crashing
+</script>
+</head>
+<body>
+<header>
+  <h1>C++ Conditionals & Logic — Beginner Friendly (CP)</h1>
+  <div class="lede">Instructor: rafsan hasan — Duration: 3 hours</div>
+  <div class="lede">Use <span class="kbd">←</span> <span class="kbd">→</span> to navigate</div>
+</header>
+<div class="deck">
+  <nav class="sidebar" id="nav" aria-label="Slides navigation"></nav>
+  <main class="slide" id="content" tabindex="0" aria-live="polite"></main>
+</div>
+<footer>Tip: Compile locally with: g++ -std=gnu++17 main.cpp -O2 -o main</footer>
+
+<script>
+const slides = [
+  {title:"Title", html:`<h2>Welcome</h2>
+    <p class="lede">Beginner-only session: no loops or data structures — focus on conditionals, safe types, I/O, and contest-style boolean logic. Each topic includes a concise explanation and a runnable example.</p>
+    <div class="card"><strong>Class flow:</strong>
+      <ul><li>Concept mini-brief (1–3 min)</li><li>Type the example (2–4 min)</li><li>Discuss edge cases (1–2 min)</li></ul>
+    </div>`},
+
+  {title:"Agenda", html:`<h2>Short Agenda</h2>
+    <ul>
+      <li>Program skeleton & compilation</li>
+      <li>Primitive data types, variables, constants</li>
+      <li>I/O and basic operators</li>
+      <li>Comments & formatting</li>
+      <li>Conditionals: if / else if / else</li>
+      <li>Nested if, switch, ternary</li>
+      <li>Boolean logic & short-circuiting</li>
+      <li>Common CP patterns</li>
+      <li>Practice set + solutions</li>
+    </ul>`},
+
+  {title:"Program Skeleton", html:`<h2>Program Skeleton</h2>
+    <p class="lede">Every C++ program starts with main(). Use iostream for basic I/O. Print with cout and end lines with '\\n' for speed.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, CP!\\n";
+    return 0;
+}
+// Compile: g++ -std=gnu++17 main.cpp -O2 -o main
+// Run: ./main`},
+
+  {title:"Data Types (Overview)", html:`<h2>Data Types</h2>
+    <p class="lede">Pick the smallest type that safely holds your values. For integer math in CP, prefer <span class="key">long long</span> when ranges may exceed int.</p>
+    <div class="grid">
+      <div class="card"><strong>int</strong> — 32-bit signed, counts and small sums</div>
+      <div class="card"><strong>long long</strong> — 64-bit signed, big counts/products</div>
+      <div class="card"><strong>char</strong> — single character like 'A'</div>
+      <div class="card"><strong>bool</strong> — true or false</div>
+      <div class="card"><strong>double</strong> — floating point (prefer over float)</div>
+    </div>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 10;
+    long long b = 10000000000LL;
+    char c = 'x';
+    bool ok = true;
+    double pi = 3.1415926535;
+    cout << a << " " << b << " " << c << " " << ok << " " << pi << '\\n';
+    return 0;
+}`},
+
+  {title:"Variables & Constants", html:`<h2>Variables & Constants</h2>
+    <p class="lede">Use <span class="key">const</span> when a value must not change. Consider <span class="key">constexpr</span> for compile-time constants.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    const long long MOD = 1000000007LL; // cannot be reassigned
+    int score = 42;                     // mutable
+    // MOD = 10; // error
+    score = score + 1;
+    cout << "score=" << score << ", MOD=" << MOD << '\\n';
+    return 0;
+}`},
+
+  {title:"Input / Output — Basics", html:`<h2>Input / Output</h2>
+    <p class="lede"><span class="key">cin</span> reads tokens (numbers/words), <span class="key">cout</span> prints values. Use '\\n' for newlines (faster than endl).</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b;
+    cin >> a >> b; // input two integers
+    cout << a << "+" << b << "=" << (a + b) << '\\n';
+    return 0;
+}`},
+
+  {title:"Basic Operators — Arithmetic", html:`<h2>Arithmetic Operators</h2>
+    <p class="lede">+ - * / % work on integers. Integer division truncates toward zero. Use 1LL * a * b to promote to 64-bit when multiplying.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 7, b = 3;
+    cout << (a + b) << ' ' << (a - b) << ' ' << (a * b) << ' '
+         << (a / b) << ' ' << (a % b) << '\\n'; // 7/3 == 2
+    long long big = 1LL * 100000 * 100000;      // prevent overflow
+    cout << big << '\\n';
+    return 0;
+}`},
+
+  {title:"Basic Operators — Relational & Logical", html:`<h2>Relational & Logical</h2>
+    <p class="lede">Compare with == != &lt; &gt; &lt;= &gt;=. Combine with && (AND), || (OR), ! (NOT). In C++, true prints as 1 and false as 0.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5, b = 10;
+    cout << (a < b) << ' ' << (a == b) << '\\n';
+    cout << ((a < b) && (b > 0)) << '\\n';
+    return 0;
+}`},
+
+  {title:"Comments & Formatting", html:`<h2>Comments & Formatting</h2>
+    <p class="lede">Comment intent, not the obvious. Use braces for clarity in teaching code. Consistent formatting reduces bugs.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    // compute sum of two numbers
+    int a = 2, b = 3;
+    int sum = a + b; /* temporary result */
+    cout << sum << '\\n';
+    return 0;
+}`},
+
+  {title:"Conditionals: if / else if / else", html:`<h2>if / else if / else</h2>
+    <p class="lede">The first condition that evaluates to true runs its block; remaining branches are skipped.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int x; cin >> x;
+    if (x > 0) {
+        cout << "Positive\\n";
+    } else if (x < 0) {
+        cout << "Negative\\n";
+    } else {
+        cout << "Zero\\n";
+    }
+    return 0;
+}`},
+
+  {title:"Nested Conditionals", html:`<h2>Nested Conditionals</h2>
+    <p class="lede">Place an if inside another to refine cases. Keep nesting shallow; refactor when it grows.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int x; cin >> x;
+    if (x != 0) {
+        if (x % 2 == 0) cout << "Nonzero even\\n";
+        else            cout << "Nonzero odd\\n";
+    } else {
+        cout << "Zero\\n";
+    }
+    return 0;
+}`},
+
+  {title:"Switch Statement", html:`<h2>Switch</h2>
+    <p class="lede">Use switch when matching one variable against fixed values (int/char). Remember break to avoid fall-through.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int code; cin >> code;
+    switch (code) {
+      case 1: cout << "A\\n"; break;
+      case 2: cout << "B\\n"; break;
+      case 3: cout << "C\\n"; break;
+      default: cout << "Unknown\\n";
+    }
+    return 0;
+}`},
+
+  {title:"Ternary Operator", html:`<h2>Ternary</h2>
+    <p class="lede">(cond) ? a : b returns a value based on a condition. Use for short, clear choices.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b; cin >> a >> b;
+    int mx = (a > b) ? a : b;
+    cout << mx << '\\n';
+    return 0;
+}`},
+
+  {title:"Boolean Logic & Compound Conditions", html:`<h2>Compound Conditions</h2>
+    <p class="lede">Combine comparisons with && and ||. Use parentheses to emphasize intent and avoid precedence mistakes.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int x, L, R; cin >> x >> L >> R;
+    if (L <= x && x <= R) cout << "In range\\n";
+    else                  cout << "Out of range\\n";
+    return 0;
+}`},
+
+  {title:"Short-circuiting (safety guards)", html:`<h2>Short-circuiting</h2>
+    <p class="lede">In A && B, if A is false, B is not evaluated. In A || B, if A is true, B is not evaluated. Use this to guard unsafe checks.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    bool has_value = true;
+    int val = 7;
+    if (has_value && val > 5) {
+        cout << "Good\\n";
+    }
+    return 0;
+}`},
+
+  {title:"Common CP Patterns (no loops)", html:`<h2>Common Patterns</h2>
+    <ul>
+      <li><span class="key">Parity</span>: n % 2 == 0 (or !(n &amp; 1))</li>
+      <li><span class="key">Range</span>: L <= x && x <= R</li>
+      <li><span class="key">Divisible</span>: n % k == 0</li>
+      <li><span class="key">Early guards</span>: handle special cases first (e.g., n == 0)</li>
+    </ul>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int n; cin >> n;
+    if (n % 2 == 0 && n >= 0 && n <= 100) cout << "Even in \\n";
+    else                                  cout << "Other\\n";
+    return 0;
+}`},
+
+  {title:"Practice Set (No Loops)", html:`<h2>Practice Problems</h2>
+    <ol>
+      <li>Even or odd</li>
+      <li>Max of two and max of three</li>
+      <li>Leap year</li>
+      <li>Vowel or consonant</li>
+      <li>Triangle validity</li>
+      <li>Simple calculator (+ - * / % with zero checks)</li>
+      <li>Range check — IN or OUT</li>
+      <li>Power-of-two test (bitwise)</li>
+    </ol>
+    <p class="lede">Try first. Solutions follow.</p>`},
+
+  {title:"Solution — Even or Odd", html:`<h2>Solution: Even or Odd</h2>
+    <p class="lede">Check remainder by 2 or use the low bit with &amp; 1.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    long long n; cin >> n;
+    cout << ((n & 1) ? "Odd\\n" : "Even\\n");
+    return 0;
+}`},
+
+  {title:"Solution — Max of Three", html:`<h2>Solution: Max of Three</h2>
+    <p class="lede">Use nested max or nested ternary. max(a, max(b, c)) is clear and standard.</p>`,
+   code:`#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int a, b, c; cin >> a >> b >> c;
+    int mx = max(a, max(b, c));
+    cout << mx << "\\n";
+    return 0;
+}`},
+
+  {title:"Solution — Leap Year", html:`<h2>Solution: Leap Year</h2>
+    <p class="lede">Divisible by 4 and not by 100, unless divisible by 400.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int y; cin >> y;
+    bool leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+    cout << (leap ? "YES\\n" : "NO\\n");
+    return 0;
+}`},
+
+  {title:"Solution — Vowel or Consonant", html:`<h2>Solution: Vowel or Consonant</h2>
+    <p class="lede">Normalize with tolower. Optionally validate alphabetic input.</p>`,
+   code:`#include <iostream>
+#include <cctype>
+using namespace std;
+
+int main() {
+    char ch; cin >> ch;
+    ch = tolower((unsigned char)ch);
+    if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u') cout << "Vowel\\n";
+    else                                             cout << "Consonant\\n";
+    return 0;
+}`},
+
+  {title:"Solution — Triangle Validity", html:`<h2>Solution: Triangle Validity</h2>
+    <p class="lede">Sides must be positive and satisfy all triangle inequalities.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    long long a, b, c; cin >> a >> b >> c;
+    if (a > 0 && b > 0 && c > 0 &&
+        a + b > c && a + c > b && b + c > a)
+        cout << "Yes\\n";
+    else
+        cout << "No\\n";
+    return 0;
+}`},
+
+  {title:"Solution — Simple Calculator", html:`<h2>Solution: Simple Calculator</h2>
+    <p class="lede">Guard division and modulo by zero. Read format: a op b (e.g., 8 / 2).</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    long long a, b; char op; cin >> a >> op >> b;
+    if (op == '+') cout << a + b << "\\n";
+    else if (op == '-') cout << a - b << "\\n";
+    else if (op == '*') cout << a * b << "\\n";
+    else if (op == '/') { if (b == 0) cout << "ERR\\n"; else cout << (a / b) << "\\n"; }
+    else if (op == '%') { if (b == 0) cout << "ERR\\n"; else cout << (a % b) << "\\n"; }
+    else cout << "Unknown op\\n";
+    return 0;
+}`},
+
+  {title:"Solution — Range Check", html:`<h2>Solution: Range Check</h2>
+    <p class="lede">Inclusive bounds: L <= x <= R.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    int x, L, R; cin >> x >> L >> R;
+    cout << ((L <= x && x <= R) ? "IN\\n" : "OUT\\n");
+    return 0;
+}`},
+
+  {title:"Solution — Power of Two", html:`<h2>Solution: Power of Two</h2>
+    <p class="lede">For n > 0, exactly one bit set: n &amp; (n-1) clears the lowest set bit. Result is zero only for powers of two.</p>`,
+   code:`#include <iostream>
+using namespace std;
+
+int main() {
+    long long n; cin >> n;
+    if (n > 0 && (n & (n - 1)) == 0) cout << "YES\\n";
+    else                              cout << "NO\\n";
+    return 0;
+}`},
+
+  {title:"Teaching Tips & Pitfalls", html:`<h2>Tips & Common Pitfalls</h2>
+    <ul>
+      <li>Initialize variables before use.</li>
+      <li>Use long long for large integer math.</li>
+      <li>Integer division truncates; cast to double when needed.</li>
+      <li>Parenthesize complex boolean expressions.</li>
+      <li>When mixing cin and getline, handle the leftover newline (cin.ignore()).</li>
+    </ul>`},
+
+  {title:"Activities & Next Steps", html:`<h2>Activities & Next Steps</h2>
+    <ul>
+      <li>Live type the 8 problems and compare answers.</li>
+      <li>Peer review edge cases: negatives, zero, large values.</li>
+      <li>Quiz: operator precedence and short-circuiting.</li>
+      <li>Next class: loops (for/while), more CP patterns.</li>
+    </ul>`}
+];
+
+function renderSlide(idx){
+  const s = slides[idx];
+  const content = document.getElementById('content');
+  let inner = '';
+  if (s.html) inner += s.html;
+  if (s.code) {
+    // Escape code for safe HTML, add language class for HLJS
+    const codeEscaped = s.code.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    inner += `<div class="card">
+      <div><strong>Example</strong></div>
+      <pre><code class="language-cpp">${codeEscaped}</code></pre>
+      <div class="actions">
+        <button class="btn" onclick="copyCode(${idx})">Copy code</button>
+      </div>
+    </div>`;
+  }
+  content.innerHTML = inner;
+
+  // Update nav active state
+  document.querySelectorAll('.sidebar button').forEach((b,i)=>b.classList.toggle('active', i===idx));
+
+  // If highlight.js loaded, highlight now
+  if (window.hljs) {
+    content.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+  }
+
+  content.focus();
+}
+
+function copyCode(idx){
+  const s = slides[idx];
+  if (!s.code) return;
+  navigator.clipboard.writeText(s.code)
+    .then(()=>alert('Code copied to clipboard'))
+    .catch(()=>alert('Copy failed'));
+}
+
+function initNav(){
+  const nav = document.getElementById('nav');
+  slides.forEach((s,i)=>{
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = (i+1).toString().padStart(2,'0') + " — " + s.title;
+    btn.onclick = ()=>renderSlide(i);
+    nav.appendChild(btn);
+  });
+  // keyboard navigation
+  window.addEventListener('keydown', e=>{
+    const buttons = [...document.querySelectorAll('.sidebar button')];
+    const active = buttons.findIndex(b=>b.classList.contains('active'));
+    if (e.key === 'ArrowRight') { e.preventDefault(); renderSlide((active+1)%slides.length); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); renderSlide((active-1+slides.length)%slides.length); }
+  });
+}
+
+// Boot: render first slide, then init HLJS if ready, then highlight
+document.addEventListener('DOMContentLoaded', async () => {
+  initNav();
+  renderSlide(0);
+
+  if (await hljsReady && window.hljs) {
+    // Configure if desired, then highlight anything present
+    hljs.highlightAll();
+  } else {
+    // HLJS not available (offline/CDN blocked). Code will remain unhighlighted, no errors thrown.
+    console.warn('Highlight.js failed to load; proceeding without syntax highlighting.');
+  }
+});
+</script>
+</body>
+</html>
