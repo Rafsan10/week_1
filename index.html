@@ -1273,45 +1273,130 @@ double nanv = NAN;
 </div>
 `},
 
-        /* Practice problems 1–24 converted to C (same statements) */
-
+        // PRACTICE PROBLEMS WITH COMPLETE DESCRIPTIONS - NO SOLUTIONS
         {
           title: "Practice Set — Basic Problems (1-8)", html: `
 <h2>Practice Problems — Part 1: Fundamentals</h2>
-<p class="lede">Master the basics first. Try each problem before looking at solutions.</p>
+<p class="lede">Master the basics first. Try each problem before moving on.</p>
+
 <div class="problem">
   <h3>Problem 1: Even or Odd</h3>
   <p><strong>Description:</strong> Given an integer, determine whether it's even or odd.</p>
   <p><strong>Input:</strong> A single integer N (-10^9 ≤ N ≤ 10^9)</p>
-  <p><strong>Output:</strong> Print "Even" or "Odd"</p>
+  <p><strong>Output:</strong> Print "Even" if the number is even, "Odd" if it's odd</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 4<br>
+    Output: Even<br><br>
+    Input: -7<br>
+    Output: Odd
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 2: Maximum of Three Numbers</h3>
   <p><strong>Description:</strong> Find the largest among three given integers.</p>
+  <p><strong>Input:</strong> Three integers a, b, c (-1000 ≤ a,b,c ≤ 1000)</p>
+  <p><strong>Output:</strong> Print the maximum value</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 5 2 8<br>
+    Output: 8<br><br>
+    Input: -1 -5 -2<br>
+    Output: -1
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 3: Leap Year</h3>
-  <p><strong>Description:</strong> Year is leap if divisible by 4 except centuries must be divisible by 400.</p>
+  <p><strong>Description:</strong> A year is a leap year if it's divisible by 4, except for century years which must be divisible by 400.</p>
+  <p><strong>Input:</strong> A year Y (1 ≤ Y ≤ 3000)</p>
+  <p><strong>Output:</strong> Print "YES" if it's a leap year, "NO" otherwise</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 2020<br>
+    Output: YES<br><br>
+    Input: 1900<br>
+    Output: NO<br><br>
+    Input: 2000<br>
+    Output: YES
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 4: Vowel or Consonant</h3>
   <p><strong>Description:</strong> Given a single alphabet character, determine if it's a vowel or consonant.</p>
+  <p><strong>Input:</strong> A single alphabet character (both uppercase and lowercase possible)</p>
+  <p><strong>Output:</strong> Print "Vowel" or "Consonant"</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: A<br>
+    Output: Vowel<br><br>
+    Input: b<br>
+    Output: Consonant<br><br>
+    Input: E<br>
+    Output: Vowel
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 5: Triangle Validity</h3>
-  <p><strong>Description:</strong> Given three side lengths, determine if they can form a valid triangle.</p>
+  <p><strong>Description:</strong> Given three side lengths, determine if they can form a valid triangle. For a valid triangle, sum of any two sides must be greater than the third side.</p>
+  <p><strong>Input:</strong> Three positive integers a, b, c representing side lengths</p>
+  <p><strong>Output:</strong> Print "Yes" if valid triangle, "No" otherwise</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 3 4 5<br>
+    Output: Yes<br><br>
+    Input: 1 1 5<br>
+    Output: No
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 6: Simple Calculator</h3>
-  <p><strong>Description:</strong> Perform +, -, *, /, % with division-by-zero handling.</p>
+  <p><strong>Description:</strong> Perform basic arithmetic operations (+, -, *, /, %) with error handling for division by zero.</p>
+  <p><strong>Input:</strong> Two integers a, b and an operator op</p>
+  <p><strong>Output:</strong> Result of a op b, or "ERR" if division/modulo by zero</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 8 / 2<br>
+    Output: 4<br><br>
+    Input: 5 % 0<br>
+    Output: ERR<br><br>
+    Input: 7 + 3<br>
+    Output: 10
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 7: Range Check</h3>
-  <p><strong>Description:</strong> Check if x is in [L, R].</p>
+  <p><strong>Description:</strong> Check if a given number falls within a specified range [L, R] (inclusive).</p>
+  <p><strong>Input:</strong> Three integers: number x, range bounds L and R</p>
+  <p><strong>Output:</strong> Print "IN" if x is in range, "OUT" otherwise</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 5 1 10<br>
+    Output: IN<br><br>
+    Input: 15 1 10<br>
+    Output: OUT
+  </div>
 </div>
+
 <div class="problem">
   <h3>Problem 8: Power of Two</h3>
-  <p><strong>Description:</strong> Check if N is a power of 2 using bitwise operations.</p>
+  <p><strong>Description:</strong> Check if a positive integer is a power of 2 using bitwise operations.</p>
+  <p><strong>Input:</strong> A positive integer N (1 ≤ N ≤ 10^18)</p>
+  <p><strong>Output:</strong> Print "YES" if N is a power of 2, "NO" otherwise</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 8<br>
+    Output: YES<br><br>
+    Input: 10<br>
+    Output: NO<br><br>
+    Input: 1<br>
+    Output: YES
+  </div>
 </div>
 `},
 
@@ -1319,28 +1404,265 @@ double nanv = NAN;
           title: "Practice Set — Intermediate Problems (9-16)", html: `
 <h2>Practice Problems — Part 2: Conditionals</h2>
 <p class="lede">More complex conditional logic and edge cases.</p>
-<div class="problem"><h3>Problem 9: Grade Calculator</h3></div>
-<div class="problem"><h3>Problem 10: Quadrant Finder</h3></div>
-<div class="problem"><h3>Problem 11: Age Category</h3></div>
-<div class="problem"><h3>Problem 12: Temperature Converter</h3></div>
-<div class="problem"><h3>Problem 13: Day of Week</h3></div>
-<div class="problem"><h3>Problem 14: BMI Calculator</h3></div>
-<div class="problem"><h3>Problem 15: Time Format Converter</h3></div>
-<div class="problem"><h3>Problem 16: Discount Calculator</h3></div>
+
+<div class="problem">
+  <h3>Problem 9: Grade Calculator</h3>
+  <p><strong>Description:</strong> Convert a numerical score (0-100) to a letter grade using the standard scale.</p>
+  <p><strong>Input:</strong> An integer score (0 ≤ score ≤ 100, or invalid input)</p>
+  <p><strong>Output:</strong> Letter grade: A (90-100), B (80-89), C (70-79), D (60-69), F (0-59), or "Invalid" for out-of-range</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 95<br>
+    Output: A<br><br>
+    Input: 67<br>
+    Output: D<br><br>
+    Input: 150<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 10: Quadrant Finder</h3>
+  <p><strong>Description:</strong> Given coordinates (x, y), determine which quadrant the point lies in, or if it's on an axis.</p>
+  <p><strong>Input:</strong> Two integers x and y representing coordinates</p>
+  <p><strong>Output:</strong> "Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV", "X-axis", "Y-axis", or "Origin"</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 3 4<br>
+    Output: Quadrant I<br><br>
+    Input: -2 5<br>
+    Output: Quadrant II<br><br>
+    Input: 0 0<br>
+    Output: Origin
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 11: Age Category</h3>
+  <p><strong>Description:</strong> Classify a person's age into life stage categories.</p>
+  <p><strong>Input:</strong> Age in years (non-negative integer)</p>
+  <p><strong>Output:</strong> "Child" (0-12), "Teen" (13-19), "Adult" (20-64), "Senior" (65+), or "Invalid" for negative ages</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 8<br>
+    Output: Child<br><br>
+    Input: 25<br>
+    Output: Adult<br><br>
+    Input: -5<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 12: Temperature Converter</h3>
+  <p><strong>Description:</strong> Convert temperature between Celsius (C), Fahrenheit (F), and Kelvin (K).</p>
+  <p><strong>Input:</strong> Temperature value, source unit, target unit (e.g., "25.0 C F")</p>
+  <p><strong>Output:</strong> Converted temperature value, or "Invalid" for unknown units</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 25.0 C F<br>
+    Output: 77<br><br>
+    Input: 100 C K<br>
+    Output: 373.15<br><br>
+    Input: 50 X Y<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 13: Day of Week</h3>
+  <p><strong>Description:</strong> Given a number (1-7), output the corresponding day of the week.</p>
+  <p><strong>Input:</strong> An integer representing day number (1 = Monday)</p>
+  <p><strong>Output:</strong> Day name or "Invalid" for numbers outside 1-7</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 1<br>
+    Output: Monday<br><br>
+    Input: 7<br>
+    Output: Sunday<br><br>
+    Input: 8<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 14: BMI Calculator</h3>
+  <p><strong>Description:</strong> Calculate Body Mass Index and categorize health status. BMI = weight/(height^2)</p>
+  <p><strong>Input:</strong> Weight in kg and height in meters (positive real numbers)</p>
+  <p><strong>Output:</strong> "Underweight" (<18.5), "Normal" (18.5-24.9), "Overweight" (25-29.9), "Obese" (≥30), or "Invalid" for non-positive inputs</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 70 1.75<br>
+    Output: Normal<br><br>
+    Input: 0 1.7<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 15: Time Format Converter</h3>
+  <p><strong>Description:</strong> Convert 24-hour format to 12-hour format with AM/PM.</p>
+  <p><strong>Input:</strong> Hour (0-23) and minute (0-59)</p>
+  <p><strong>Output:</strong> Time in 12-hour format, or "Invalid" for out-of-range values</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 14 30<br>
+    Output: 2:30 PM<br><br>
+    Input: 0 15<br>
+    Output: 12:15 AM<br><br>
+    Input: 25 30<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 16: Discount Calculator</h3>
+  <p><strong>Description:</strong> Apply tiered discount based on purchase amount: 5% (any), 10% (≥100), 15% (≥500), 20% (≥1000).</p>
+  <p><strong>Input:</strong> Purchase amount (non-negative real number)</p>
+  <p><strong>Output:</strong> Final amount after discount, or "Invalid" for negative amounts</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 150<br>
+    Output: 135<br><br>
+    Input: 1200<br>
+    Output: 960<br><br>
+    Input: -50<br>
+    Output: Invalid
+  </div>
+</div>
 `},
 
         {
           title: "Practice Set — Advanced Problems (17-24)", html: `
 <h2>Practice Problems — Part 3: Logic & Types</h2>
 <p class="lede">Complex boolean logic, type casting, and bit manipulation.</p>
-<div class="problem"><h3>Problem 17: Valid Date</h3></div>
-<div class="problem"><h3>Problem 18: Character Classifier</h3></div>
-<div class="problem"><h3>Problem 19: Number System Identifier</h3></div>
-<div class="problem"><h3>Problem 20: Overflow Detection</h3></div>
-<div class="problem"><h3>Problem 21: Bit Counter</h3></div>
-<div class="problem"><h3>Problem 22: Password Strength</h3></div>
-<div class="problem"><h3>Problem 23: Operator Precedence Prediction</h3></div>
-<div class="problem"><h3>Problem 24: Type Casting Effects</h3></div>
+
+<div class="problem">
+  <h3>Problem 17: Valid Date</h3>
+  <p><strong>Description:</strong> Check if a given date (day/month/year) is valid, considering leap years and month-specific day limits.</p>
+  <p><strong>Input:</strong> Three integers: day, month, year</p>
+  <p><strong>Output:</strong> "Valid" or "Invalid"</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 29 2 2020<br>
+    Output: Valid<br><br>
+    Input: 29 2 2021<br>
+    Output: Invalid<br><br>
+    Input: 31 4 2022<br>
+    Output: Invalid
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 18: Character Classifier</h3>
+  <p><strong>Description:</strong> Classify a character as digit (0-9), letter (a-z, A-Z), or special character using ASCII values.</p>
+  <p><strong>Input:</strong> A single character</p>
+  <p><strong>Output:</strong> "Digit", "Letter", or "Special"</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 7<br>
+    Output: Digit<br><br>
+    Input: A<br>
+    Output: Letter<br><br>
+    Input: @<br>
+    Output: Special
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 19: Number System Identifier</h3>
+  <p><strong>Description:</strong> Identify the number system based on prefix: 0x/0X (hex), 0b (binary), 0 followed by digit (octal), or decimal.</p>
+  <p><strong>Input:</strong> A string representing a number</p>
+  <p><strong>Output:</strong> "Hexadecimal", "Binary", "Octal", or "Decimal"</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 0xFF<br>
+    Output: Hexadecimal<br><br>
+    Input: 0b1010<br>
+    Output: Binary<br><br>
+    Input: 077<br>
+    Output: Octal<br><br>
+    Input: 123<br>
+    Output: Decimal
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 20: Overflow Detection</h3>
+  <p><strong>Description:</strong> Check if addition or multiplication of two integers would cause overflow before performing the operation.</p>
+  <p><strong>Input:</strong> Two integers a, b and operation (+ or *)</p>
+  <p><strong>Output:</strong> Result of operation, or "Overflow" if it would exceed long long range</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 1000000000000000000 1000000000000000000 +<br>
+    Output: 2000000000000000000<br><br>
+    Input: 9223372036854775807 2 +<br>
+    Output: Overflow
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 21: Bit Counter</h3>
+  <p><strong>Description:</strong> Count the number of set bits (1s) in the binary representation of a number.</p>
+  <p><strong>Input:</strong> A non-negative integer N</p>
+  <p><strong>Output:</strong> Number of 1-bits in binary representation of N</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: 7<br>
+    Output: 3<br>
+    (7 = 111 in binary)<br><br>
+    Input: 8<br>
+    Output: 1<br>
+    (8 = 1000 in binary)
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 22: Password Strength</h3>
+  <p><strong>Description:</strong> Evaluate password strength: Weak (length < 6), Medium (length ≥ 6), Strong (length ≥ 8 and at least 3 of: uppercase, lowercase, digit, special character).</p>
+  <p><strong>Input:</strong> A string representing the password</p>
+  <p><strong>Output:</strong> "Weak", "Medium", or "Strong"</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    Input: abc<br>
+    Output: Weak<br><br>
+    Input: password123<br>
+    Output: Medium<br><br>
+    Input: Pass123!<br>
+    Output: Strong
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 23: Operator Precedence Prediction</h3>
+  <p><strong>Description:</strong> Given an expression with multiple operators, predict the result considering C operator precedence rules.</p>
+  <p><strong>Input:</strong> Values of variables a=5, b=3, c=2, predict results of given expressions</p>
+  <p><strong>Output:</strong> Numerical results of: a+b*c, (a+b)*c, a>b&&b>c, a==5||b==2&&c==1, ++a*b--</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    With a=5, b=3, c=2:<br>
+    a+b*c = 11<br>
+    (a+b)*c = 16<br>
+    a>b&&b>c = 1<br>
+    a==5||b==2&&c==1 = 1<br>
+    ++a*b-- = 18
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 24: Type Casting Effects</h3>
+  <p><strong>Description:</strong> Demonstrate the effects of various type conversions in C.</p>
+  <p><strong>Input:</strong> Various conversion scenarios</p>
+  <p><strong>Output:</strong> Results of: (char)65, (int)'B', (int)3.14, 1+5 (true is 1), (char)200 (if char is signed)</p>
+  <div class="example">
+    <strong>Example:</strong><br>
+    (char)65 → A<br>
+    (int)'B' → 66<br>
+    (int)3.14 → 3<br>
+    1+5 → 6<br>
+    (char)200 → implementation-defined (often -56 if char is signed)
+  </div>
+</div>
 `},
 
         /* Solutions in C */
