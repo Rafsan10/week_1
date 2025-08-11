@@ -507,16 +507,15 @@
   </head>
   <body>
     <header>
-      <h1>C++ Conditionals & Logic — Beginner Friendly (CP)</h1>
+      <h1>C Conditionals & Logic — Beginner Friendly (CP)</h1>
       <div class="lede">Presented by <span class="club-highlight">MIST COMPUTER CLUB</span> — Duration: 3 hours</div>
       <div class="lede">Use <span class="kbd">←</span> <span class="kbd">→</span> to navigate</div>
     </header>
-
     <div class="deck">
       <nav class="sidebar" id="nav" aria-label="Slides navigation"></nav>
       <main class="slide" id="content" tabindex="0" aria-live="polite"></main>
     </div>
-    <footer>Tip: Compile locally with: g++ -std=gnu++17 main.cpp -O2 -o main</footer>
+    <footer>Tip: Compile locally with: gcc -std=c17 main.c -O2 -Wall -Wextra -o main</footer>
 
     <!-- Modal for details -->
     <div id="detailModal" class="modal">
@@ -530,1973 +529,1275 @@
       const slides = [
         {
           title: "Title", html: `
-    <h2>Welcome</h2>
-    <p class="lede">Beginner-only session: no loops or data structures — focus on conditionals, safe types, I/O, and contest-style boolean logic. Each topic includes a concise explanation and a runnable example.</p>
-    <div class="card"><strong>Class flow:</strong>
-      <ul>
-        <li>Concept mini-brief (1–3 min)</li>
-        <li>Type the example (2–4 min)</li>
-        <li>Discuss edge cases (1–2 min)</li>
-      </ul>
-    </div>
-  `},
+<h2>Welcome</h2>
+<p class="lede">Beginner-only session: focus on C conditionals, safe types, I/O, and contest-style boolean logic. Each topic includes a concise explanation and a runnable example.</p>
+<div class="card"><strong>Class flow:</strong>
+  <ul>
+    <li>Concept mini-brief (1–3 min)</li>
+    <li>Type the example (2–4 min)</li>
+    <li>Discuss edge cases (1–2 min)</li>
+  </ul>
+</div>
+`},
 
         {
           title: "Agenda", html: `
-    <h2>Short Agenda</h2>
-    <ul>
-      <li>Program skeleton & compilation</li>
-      <li>Primitive data types, variables, constants</li>
-      <li>I/O and basic operators</li>
-      <li>Comments & formatting</li>
-      <li>Conditionals: if / else if / else</li>
-      <li>Nested if, switch, ternary</li>
-      <li>Boolean logic & short-circuiting</li>
-      <li>Common CP patterns</li>
-      <li>Basics add-on: type casting, bit-size to value range, overflow, floating-point</li>
-      <li>Practice set + solutions (24+ problems)</li>
-    </ul>
-  `},
+<h2>Short Agenda</h2>
+<ul>
+  <li>Program skeleton & compilation</li>
+  <li>Primitive types, variables, constants</li>
+  <li>I/O with scanf/printf and format specifiers</li>
+  <li>Comments & formatting</li>
+  <li>Conditionals: if / else if / else</li>
+  <li>Nested if, switch, ternary</li>
+  <li>Boolean logic & short-circuiting</li>
+  <li>Common CP patterns</li>
+  <li>Basics add-on: type ranges, overflow, floating-point</li>
+  <li>Practice set + solutions (24 problems)</li>
+</ul>
+`},
 
         {
           title: "Program Skeleton", html: `
-    <h2>Program Skeleton</h2>
-    <p class="lede">Every C++ program starts with main(). Use iostream for basic I/O. Print with cout and end lines with '\\n' for speed.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Program Skeleton</h2>
+<p class="lede">Every C program starts with main(). Use stdio.h for I/O. Print with printf and end lines with '\\n'.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    cout << "Hello, CP!\\n";
+int main(void) {
+    printf("Hello, CP!\\n");
     return 0;
 }
-// Compile: g++ -std=gnu++17 main.cpp -O2 -o main
+// Compile: gcc -std=c17 -O2 -Wall -Wextra -o main main.c
 // Run: ./main`,
           details: `
-    <h3>Program Structure Deep Dive</h3>
-    <div class="detail-section">
-      <h4>Compilation Process</h4>
-      <p>When you compile C++, several steps happen:</p>
-      <ul>
-        <li><strong>Preprocessing:</strong> #include directives copy header content</li>
-        <li><strong>Compilation:</strong> Source converted to object code</li>
-        <li><strong>Linking:</strong> Object files combined with libraries</li>
-      </ul>
-      <pre><code class="language-bash"># Verbose compilation to see steps:
-g++ -v -std=gnu++17 main.cpp -O2 -o main</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Why 'using namespace std;'?</h4>
-      <p>Without it, you'd write <code>std::cout</code> and <code>std::cin</code>. In competitive programming, brevity matters, but in production code, avoid it to prevent name conflicts.</p>
-      <pre><code class="language-cpp">// Without using namespace:
-#include <iostream>
-int main() {
-    std::cout << "Hello\\n";
-    return 0;
-}</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Why return 0?</h4>
-      <p>The return value indicates program success (0) or failure (non-zero) to the operating system. Modern C++ allows omitting it from main(), but it's good practice to include it.</p>
-    </div>
-  `},
+<h3>Program Structure Deep Dive</h3>
+<div class="detail-section">
+  <h4>Compilation Process</h4>
+  <ul>
+    <li><strong>Preprocessing:</strong> #include inserts headers, macros expand</li>
+    <li><strong>Compilation:</strong> C -> object code</li>
+    <li><strong>Linking:</strong> object files + libraries -> executable</li>
+  </ul>
+  <pre><code class="language-bash">gcc -std=c17 -O2 -Wall -Wextra -v main.c -o main</code></pre>
+</div>
+<div class="detail-section">
+  <h4>main signature</h4>
+  <pre><code class="language-c">int main(void) { /* ... */ }      // no command-line args
+int main(int argc, char *argv[]) { /* ... */ }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Exit status</h4>
+  <p>Return 0 for success; non-zero indicates error to the OS.</p>
+</div>
+`},
 
         {
           title: "Data Types (Overview)", html: `
-    <h2>Data Types</h2>
-    <p class="lede">Pick the smallest type that safely holds your values. For integer math in CP, prefer <span class="key">long long</span> when ranges may exceed int.</p>
-    <div class="grid">
-      <div class="card"><strong>int</strong> — 32-bit signed, counts and small sums</div>
-      <div class="card"><strong>long long</strong> — 64-bit signed, big counts/products</div>
-      <div class="card"><strong>char</strong> — single character like 'A'</div>
-      <div class="card"><strong>bool</strong> — true or false</div>
-      <div class="card"><strong>double</strong> — floating point (prefer over float)</div>
-    </div>
-  `, code: `#include <iostream>
-#include <climits>   // INT_MIN, INT_MAX, LLONG_MAX
-#include <cfloat>    // DBL_MAX
-using namespace std;
+<h2>Data Types</h2>
+<p class="lede">Pick the smallest type that safely holds your values. For large integer math, prefer long long.</p>
+<div class="grid">
+  <div class="card"><strong>int</strong> — typically 32-bit signed</div>
+  <div class="card"><strong>long long</strong> — typically 64-bit signed</div>
+  <div class="card"><strong>char</strong> — single byte; use signed/unsigned explicitly if needed</div>
+  <div class="card"><strong>_Bool / bool</strong> — true/false (include stdbool.h)</div>
+  <div class="card"><strong>double</strong> — floating point (prefer over float)</div>
+</div>
+`, code: `#include <stdio.h>
+#include <limits.h>   // INT_MIN, INT_MAX, LLONG_MAX
+#include <float.h>    // DBL_MAX
 
-int main() {
-    cout << "int range: " << INT_MIN << " .. " << INT_MAX << '\\n';
-    cout << "long long max: " << LLONG_MAX << '\\n';
-    cout << "double max ~ " << DBL_MAX << '\\n';
+int main(void) {
+    printf("int range: %d .. %d\\n", INT_MIN, INT_MAX);
+    printf("long long max: %lld\\n", LLONG_MAX);
+    printf("double max ~ %.0f\\n", DBL_MAX);
     return 0;
 }`,
           details: `
-    <h3>Data Type Details & Memory Layout</h3>
-    <div class="detail-section">
-      <h4>Complete Type Sizes</h4>
-      <ul>
-        <li><strong>char:</strong> 1 byte, range -128 to 127 (or 0 to 255 if unsigned)</li>
-        <li><strong>short:</strong> 2 bytes, range -32,768 to 32,767</li>
-        <li><strong>int:</strong> 4 bytes, range -2,147,483,648 to 2,147,483,647</li>
-        <li><strong>long long:</strong> 8 bytes, range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807</li>
-        <li><strong>float:</strong> 4 bytes, ~7 decimal digits precision</li>
-        <li><strong>double:</strong> 8 bytes, ~15-17 decimal digits precision</li>
-      </ul>
-    </div>
-    <div class="detail-section">
-      <h4>Char as Number vs Character</h4>
-      <pre><code class="language-cpp">char c1 = 'A';     // Character literal
-char c2 = 65;      // Same as 'A' (ASCII value)
-char c3 = c1 + 1;  // 'B' (ASCII 66)
-cout << c1 << " " << (int)c1 << "\\n"; // Prints: A 65</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>When to Use Each Type</h4>
-      <ul>
-        <li><strong>int:</strong> Loop counters, small calculations, array indices</li>
-        <li><strong>long long:</strong> Large sums, products, factorial results, timestamps</li>
-        <li><strong>double:</strong> Mathematical calculations, averages, geometric computations</li>
-        <li><strong>bool:</strong> Flags, conditions, true/false states</li>
-      </ul>
-    </div>
-  `},
+<h3>Type Sizes & Notes</h3>
+<div class="detail-section">
+  <h4>Typical sizes (platform-dependent)</h4>
+  <ul>
+    <li><strong>char:</strong> 1 byte; signedness is implementation-defined</li>
+    <li><strong>short:</strong> ≥16 bits</li>
+    <li><strong>int:</strong> ≥16 bits (commonly 32)</li>
+    <li><strong>long long:</strong> ≥64 bits (commonly 64)</li>
+    <li><strong>float:</strong> 32-bit IEEE 754</li>
+    <li><strong>double:</strong> 64-bit IEEE 754</li>
+  </ul>
+</div>
+<div class="detail-section">
+  <h4>Char as number vs character</h4>
+  <pre><code class="language-c">#include <stdio.h>
+int main(void){
+    char c1 = 'A';
+    char c2 = 65;
+    char c3 = c1 + 1;  // 'B' on ASCII systems
+    printf("%c %d\\n", c1, (int)c1);
+    return 0;
+}</code></pre>
+</div>
+<div class="detail-section">
+  <h4>When to use each type</h4>
+  <ul>
+    <li><strong>int:</strong> counters, small sums</li>
+    <li><strong>long long:</strong> big sums/products</li>
+    <li><strong>double:</strong> real-valued math</li>
+    <li><strong>bool:</strong> logical flags (stdbool.h)</li>
+  </ul>
+</div>
+`},
 
         {
           title: "Variables & Constants", html: `
-    <h2>Variables & Constants</h2>
-    <p class="lede">Use <span class="key">const</span> when a value must not change. Consider <span class="key">constexpr</span> for compile-time constants.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Variables & Constants</h2>
+<p class="lede">Use const when a value must not change. In C, const variables have internal linkage by default at file scope unless extern is used.</p>
+`, code: `#include <stdio.h>
 
-int main() {
+int main(void) {
     const long long MOD = 1000000007LL; // cannot be reassigned
     int score = 42;                     // mutable
     // MOD = 10; // error
     score = score + 1;
-    cout << "score=" << score << ", MOD=" << MOD << '\\n';
+    printf("score=%d, MOD=%lld\\n", score, MOD);
     return 0;
 }`,
           details: `
-    <h3>Constants & Variable Scope</h3>
-    <div class="detail-section">
-      <h4>const vs constexpr</h4>
-      <pre><code class="language-cpp">const int runtime_const = some_function();     // Value set at runtime
-constexpr int compile_const = 42;              // Value must be known at compile time
-constexpr int calc = 2 * 3 + 1;               // Computed at compile time</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Variable Initialization</h4>
-      <pre><code class="language-cpp">int a;          // Uninitialized - dangerous!
-int b = 0;      // Copy initialization
-int c(0);       // Direct initialization  
-int d{0};       // Uniform initialization (preferred)
-int e{};        // Zero initialization</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Common CP Constants</h4>
-      <pre><code class="language-cpp">const long long MOD = 1000000007LL;
-const long long INF = 1e18;
+<h3>Initialization & Storage</h3>
+<div class="detail-section">
+  <h4>Initialization forms</h4>
+  <pre><code class="language-c">int a;        // indeterminate (uninitialized local)
+int b = 0;    // initialized
+int c = 2 * 3 + 1; // computed at runtime in C
+</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Common CP constants</h4>
+  <pre><code class="language-c">const long long MOD = 1000000007LL;
+const long long INF = 9000000000000000000LL; // ~9e18
 const double PI = 3.141592653589793;
 const double EPS = 1e-9;</code></pre>
-    </div>
-  `},
+</div>
+`},
 
         {
           title: "Input / Output — Basics", html: `
-    <h2>Input / Output</h2>
-    <p class="lede"><span class="key">cin</span> reads tokens (numbers/words), <span class="key">cout</span> prints values. Use '\\n' for newlines (faster than endl).</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Input / Output</h2>
+<p class="lede"><span class="key">scanf</span> reads tokens, <span class="key">printf</span> prints values. Use correct format specifiers.</p>
+`, code: `#include <stdio.h>
 
-int main() {
+int main(void) {
     int a, b;
-    cin >> a >> b; // input two integers
-    cout << a << "+" << b << "=" << (a + b) << '\\n';
+    if (scanf("%d %d", &a, &b) != 2) return 0;
+    printf("%d+%d=%d\\n", a, b, a + b);
     return 0;
 }`,
           details: `
-    <h3>I/O Performance & Advanced Techniques</h3>
-    <div class="detail-section">
-      <h4>Speed Optimization</h4>
-      <pre><code class="language-cpp">// For competitive programming speed:
-ios_base::sync_with_stdio(false);
-cin.tie(NULL);
-cout.tie(NULL);</code></pre>
-      <p>This disables C stdio synchronization and unties cin from cout for faster I/O.</p>
-    </div>
-    <div class="detail-section">
-      <h4>Reading Different Data Types</h4>
-      <pre><code class="language-cpp">string word;
-char ch;
-double num;
-cin >> word >> ch >> num;
-
-// Reading line with spaces:
-string line;
-getline(cin, line);
-
-// Reading until EOF:
-int x;
-while (cin >> x) {
+<h3>I/O Essentials</h3>
+<div class="detail-section">
+  <h4>Format specifiers (common)</h4>
+  <pre><code class="language-c">%d int, %lld long long, %u unsigned, %f float, %lf double, %c char, %s string</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Reading lines</h4>
+  <pre><code class="language-c">#include <stdio.h>
+int main(void){
+    char buf[256];
+    if (fgets(buf, sizeof buf, stdin)) {
+        printf("%s", buf);
+    }
+    return 0;
+}</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Processing until EOF</h4>
+  <pre><code class="language-c">int x;
+while (scanf("%d", &x) == 1) {
     // process x
 }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Output Formatting</h4>
-      <pre><code class="language-cpp">#include <iomanip>
-cout << fixed << setprecision(2) << 3.14159 << "\\n"; // 3.14
-cout << setw(5) << 42 << "\\n";                        // "   42"</code></pre>
-    </div>
-  `},
+</div>
+<div class="detail-section">
+  <h4>Output formatting</h4>
+  <pre><code class="language-c">printf("%.2f\\n", 3.14159);   // 3.14
+printf("%5d\\n", 42);         // "   42"</code></pre>
+</div>
+`},
 
         {
           title: "Basic Operators — Arithmetic", html: `
-    <h2>Arithmetic Operators</h2>
-    <p class="lede">+ - * / % work on integers. Integer division truncates toward zero. Use 1LL * a * b to promote to 64-bit when multiplying.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Arithmetic Operators</h2>
+<p class="lede">+ - * / % work on integers. Integer division truncates toward zero. Promote to long long to avoid overflow.</p>
+`, code: `#include <stdio.h>
 
-int main() {
+int main(void) {
     int a = 7, b = 3;
-    cout << (a + b) << ' ' << (a - b) << ' ' << (a * b) << ' '
-         << (a / b) << ' ' << (a % b) << '\\n'; // 7/3 == 2
-    long long big = 1LL * 100000 * 100000;      // prevent overflow
-    cout << big << '\\n';
+    printf("%d %d %d %d %d\\n", a + b, a - b, a * b, a / b, a % b); // 7/3 == 2
+    long long big = 1LL * 100000 * 100000; // promote to 64-bit
+    printf("%lld\\n", big);
     return 0;
 }`,
           details: `
-    <h3>Arithmetic Operations Deep Dive</h3>
-    <div class="detail-section">
-      <h4>Integer Division Behavior</h4>
-      <pre><code class="language-cpp">cout << 7 / 3 << "\\n";    // 2 (truncates toward zero)
-cout << -7 / 3 << "\\n";   // -2 (truncates toward zero)
-cout << 7 / -3 << "\\n";   // -2
-cout << -7 / -3 << "\\n";  // 2</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Modulo with Negative Numbers</h4>
-      <pre><code class="language-cpp">cout << 7 % 3 << "\\n";    // 1
-cout << -7 % 3 << "\\n";   // -1 (sign matches dividend)
-cout << 7 % -3 << "\\n";   // 1
-cout << -7 % -3 << "\\n";  // -1</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Overflow Prevention Techniques</h4>
-      <pre><code class="language-cpp">// Wrong: can overflow before assignment
-long long bad = a * b;
-
-// Right: promote first operand
-long long good = 1LL * a * b;
-
-// Also right: explicit cast
-long long also_good = (long long)a * b;
-
-// For addition overflow check:
-if (a > LLONG_MAX - b) {
-    // Would overflow
-}</code></pre>
-    </div>
-  `},
+<h3>Arithmetic Details</h3>
+<div class="detail-section">
+  <h4>Division & modulo signs</h4>
+  <pre><code class="language-c">printf("%d\\n", 7 / 3);   // 2
+printf("%d\\n", -7 / 3);  // -2 (trunc toward zero)
+printf("%d\\n", 7 % 3);   // 1
+printf("%d\\n", -7 % 3);  // -1 (same sign as dividend)</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Overflow prevention</h4>
+  <pre><code class="language-c">long long good = 1LL * a * b;
+long long also_good = (long long)a * b;</code></pre>
+</div>
+`},
 
         {
           title: "Basic Operators — Relational & Logical", html: `
-    <h2>Relational & Logical</h2>
-    <p class="lede">Compare with == != &lt; &gt; &lt;= &gt;=. Combine with && (AND), || (OR), ! (NOT). In C++, true prints as 1 and false as 0.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Relational & Logical</h2>
+<p class="lede">Compare with == != &lt; &gt; &lt;= &gt;=. Combine with &&, ||, !. In C, use stdbool.h for bool.</p>
+`, code: `#include <stdio.h>
+#include <stdbool.h>
 
-int main() {
+int main(void) {
     int a = 5, b = 10;
-    cout << (a < b) << ' ' << (a == b) << '\\n';
-    cout << ((a < b) && (b > 0)) << '\\n';
+    printf("%d %d\\n", a < b, a == b);
+    printf("%d\\n", (a < b) && (b > 0));
     return 0;
 }`,
           details: `
-    <h3>Comparison & Logic Details</h3>
-    <div class="detail-section">
-      <h4>Operator Precedence (Common Mistakes)</h4>
-      <pre><code class="language-cpp">// Dangerous - && has higher precedence than ==
-if (a == 1 || b == 2 && c == 3)  // Parsed as: a == 1 || (b == 2 && c == 3)
-
-// Better - use parentheses
-if ((a == 1 || b == 2) && c == 3)
-if (a == 1 || (b == 2 && c == 3))</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Comparing Different Types</h4>
-      <pre><code class="language-cpp">int i = -1;
-unsigned u = 1;
-cout << (i < u) << "\\n";  // 0 (false!) - i is converted to huge unsigned
-
-// Safer:
-cout << (i < (int)u) << "\\n";  // 1 (true)</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Boolean Arithmetic</h4>
-      <pre><code class="language-cpp">bool a = true, b = false;
-cout << a + b << "\\n";        // 1 (true=1, false=0)
-cout << a * 5 << "\\n";        // 5
-cout << !a << "\\n";           // 0
-cout << !!a << "\\n";          // 1 (double negation)</code></pre>
-    </div>
-  `},
+<h3>Comparison & Logic Details</h3>
+<div class="detail-section">
+  <h4>Operator precedence pitfalls</h4>
+  <pre><code class="language-c">if (a == 1 || b == 2 && c == 3) { /* parsed as a==1 || (b==2 && c==3) */ }
+if ((a == 1 || b == 2) && c == 3) { /* clearer */ }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Signed/unsigned traps</h4>
+  <pre><code class="language-c">int i = -1; unsigned u = 1;
+printf("%u\\n", (unsigned)i); // large value if cast
+printf("%d\\n", (i < (int)u)); // safer compare</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Boolean arithmetic</h4>
+  <pre><code class="language-c">#include <stdio.h>
+#include <stdbool.h>
+int main(void){
+  bool x = true, y = false;
+  printf("%d\\n", x + y); // 1
+  printf("%d\\n", !x);    // 0
+  return 0;
+}</code></pre>
+</div>
+`},
 
         {
           title: "Comments & Formatting", html: `
-    <h2>Comments & Formatting</h2>
-    <p class="lede">Comment intent, not the obvious. Use braces for clarity in teaching code. Consistent formatting reduces bugs.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Comments & Formatting</h2>
+<p class="lede">Comment intent, not the obvious. Consistent formatting reduces bugs.</p>
+`, code: `#include <stdio.h>
 
-int main() {
+int main(void) {
     // compute sum of two numbers
     int a = 2, b = 3;
     int sum = a + b; /* temporary result */
-    cout << sum << '\\n';
+    printf("%d\\n", sum);
     return 0;
 }`,
           details: `
-    <h3>Code Style & Documentation</h3>
-    <div class="detail-section">
-      <h4>Good vs Bad Comments</h4>
-      <pre><code class="language-cpp">// Bad - states the obvious
+<h3>Code Style & Documentation</h3>
+<div class="detail-section">
+  <h4>Good vs Bad Comments</h4>
+  <pre><code class="language-c">// Bad - states the obvious
 int x = 5; // assign 5 to x
 
-// Good - explains why or complex logic
-int max_students = 5; // classroom capacity limit
-int hash_val = (x * 31 + y) % MOD; // polynomial rolling hash</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Competitive Programming Comments</h4>
-      <pre><code class="language-cpp">// TODO: handle edge case when n=0
-// FIXME: this fails for negative inputs
-// NOTE: O(n log n) complexity here
-// HACK: weird problem constraint requires this
-int result = some_complex_formula; // from editorial solution</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Formatting Best Practices</h4>
-      <ul>
-        <li>Use consistent indentation (2 or 4 spaces)</li>
-        <li>Add spaces around operators: <code>a + b</code> not <code>a+b</code></li>
-        <li>Use braces even for single statements in if/while</li>
-        <li>Align similar lines for readability</li>
-      </ul>
-    </div>
-  `},
+// Good - explains why
+int max_students = 5; // classroom capacity limit</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Formatting best practices</h4>
+  <ul>
+    <li>Use consistent indentation</li>
+    <li>Spaces around operators: a + b</li>
+    <li>Braces for multi-line blocks</li>
+    <li>Keep lines readable</li>
+  </ul>
+</div>
+`},
 
         {
           title: "Conditionals: if / else if / else", html: `
-    <h2>if / else if / else</h2>
-    <p class="lede">The first condition that evaluates to true runs its block; remaining branches are skipped.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>if / else if / else</h2>
+<p class="lede">The first true condition runs; remaining branches are skipped.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int x; cin >> x;
+int main(void) {
+    int x; if (scanf("%d", &x) != 1) return 0;
     if (x > 0) {
-        cout << "Positive\\n";
+        printf("Positive\\n");
     } else if (x < 0) {
-        cout << "Negative\\n";
+        printf("Negative\\n");
     } else {
-        cout << "Zero\\n";
+        printf("Zero\\n");
     }
     return 0;
 }`,
           details: `
-    <h3>Conditional Logic Patterns</h3>
-    <div class="detail-section">
-      <h4>Common Conditional Patterns</h4>
-      <pre><code class="language-cpp">// Range checking
-if (x >= 1 && x <= 10) { /* valid range */ }
-
-// Multiple conditions
-if (score >= 90) grade = 'A';
-else if (score >= 80) grade = 'B';
-else if (score >= 70) grade = 'C';
-else grade = 'F';
-
-// Early return pattern
-if (invalid_input) return -1;
-// continue with valid processing...</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Performance Considerations</h4>
-      <p>Order conditions by likelihood - put most common cases first:</p>
-      <pre><code class="language-cpp">// If positive numbers are most common:
-if (x > 0) {
-    // most likely case first
-} else if (x < 0) {
-    // second most likely
-} else {
-    // x == 0, least likely
-}</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Avoiding Deep Nesting</h4>
-      <pre><code class="language-cpp">// Bad - deep nesting
-if (a > 0) {
-    if (b > 0) {
-        if (c > 0) {
-            // deeply nested
-        }
-    }
-}
-
-// Better - early returns or guard clauses
-if (a <= 0) return;
-if (b <= 0) return;
-if (c <= 0) return;
-// main logic here</code></pre>
-    </div>
-  `},
+<h3>Conditional Patterns</h3>
+<div class="detail-section">
+  <h4>Ranges & early returns</h4>
+  <pre><code class="language-c">if (x >= 1 && x <= 10) { /* valid */ }
+if (invalid) return 0; /* exit early in small programs */</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Avoid deep nesting</h4>
+  <pre><code class="language-c">if (a <= 0) return 0;
+if (b <= 0) return 0;
+if (c <= 0) return 0;
+/* main logic */</code></pre>
+</div>
+`},
 
         {
           title: "Nested Conditionals", html: `
-    <h2>Nested Conditionals</h2>
-    <p class="lede">Place an if inside another to refine cases. Keep nesting shallow; refactor when it grows.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Nested Conditionals</h2>
+<p class="lede">Place an if inside another to refine cases. Keep nesting shallow.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int x; cin >> x;
+int main(void) {
+    int x; if (scanf("%d", &x) != 1) return 0;
     if (x != 0) {
-        if (x % 2 == 0) cout << "Nonzero even\\n";
-        else            cout << "Nonzero odd\\n";
+        if (x % 2 == 0) printf("Nonzero even\\n");
+        else            printf("Nonzero odd\\n");
     } else {
-        cout << "Zero\\n";
+        printf("Zero\\n");
     }
     return 0;
 }`,
           details: `
-    <h3>Managing Complex Conditions</h3>
-    <div class="detail-section">
-      <h4>Flattening Nested Conditions</h4>
-      <pre><code class="language-cpp">// Instead of deep nesting:
-if (x != 0) {
-    if (x > 0) {
-        if (x % 2 == 0) {
-            cout << "Positive even\\n";
-        } else {
-            cout << "Positive odd\\n";
-        }
-    } else {
-        cout << "Negative\\n";
-    }
-} else {
-    cout << "Zero\\n";
-}
-
-// Consider using compound conditions:
-if (x == 0) cout << "Zero\\n";
-else if (x > 0 && x % 2 == 0) cout << "Positive even\\n";
-else if (x > 0) cout << "Positive odd\\n";
-else cout << "Negative\\n";</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Nested vs Switch</h4>
-      <p>When checking one variable against multiple values, switch is often clearer than nested if-else.</p>
-    </div>
-  `},
+<h3>Flattening conditions</h3>
+<div class="detail-section">
+  <h4>Reduce nesting with compound conditions</h4>
+  <pre><code class="language-c">if (x == 0) printf("Zero\\n");
+else if (x > 0 && x % 2 == 0) printf("Positive even\\n");
+else if (x > 0) printf("Positive odd\\n");
+else printf("Negative\\n");</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Switch vs nested if</h4>
+  <p>When comparing one integer against fixed values, switch is often clearer than many else-if chains.</p>
+</div>
+`},
 
         {
           title: "Switch Statement", html: `
-    <h2>Switch</h2>
-    <p class="lede">Use switch when matching one variable against fixed values (int/char). Remember break to avoid fall-through.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Switch</h2>
+<p class="lede">Use switch when matching one integer/char against fixed values. Remember break to avoid fall-through.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int code; cin >> code;
+int main(void) {
+    int code; if (scanf("%d", &code) != 1) return 0;
     switch (code) {
-      case 1: cout << "A\\n"; break;
-      case 2: cout << "B\\n"; break;
-      case 3: cout << "C\\n"; break;
-      default: cout << "Unknown\\n";
+      case 1: printf("A\\n"); break;
+      case 2: printf("B\\n"); break;
+      case 3: printf("C\\n"); break;
+      default: printf("Unknown\\n");
     }
     return 0;
 }`,
           details: `
-    <h3>Switch Statement Advanced Usage</h3>
-    <div class="detail-section">
-      <h4>Fall-through Behavior</h4>
-      <pre><code class="language-cpp">// Intentional fall-through (no break)
-switch (month) {
-    case 12: case 1: case 2:
-        cout << "Winter\\n";
-        break;
-    case 3: case 4: case 5:
-        cout << "Spring\\n";
-        break;
-    case 6: case 7: case 8:
-        cout << "Summer\\n";
-        break;
-    default:
-        cout << "Fall\\n";
+<h3>Switch Statement Advanced Usage</h3>
+<div class="detail-section">
+  <h4>Grouped cases (fall-through by design)</h4>
+  <pre><code class="language-c">switch (month) {
+  case 12: case 1: case 2:  printf("Winter\\n"); break;
+  case 3: case 4: case 5:   printf("Spring\\n"); break;
+  case 6: case 7: case 8:   printf("Summer\\n"); break;
+  default:                  printf("Fall\\n");
 }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Switch vs If-Else Performance</h4>
-      <p>Switch can be faster for many cases as compiler may generate jump tables, but modern compilers optimize both well.</p>
-    </div>
-    <div class="detail-section">
-      <h4>Switch Limitations</h4>
-      <ul>
-        <li>Only works with integral types (int, char, enum)</li>
-        <li>Case values must be compile-time constants</li>
-        <li>Cannot use ranges or complex conditions</li>
-        <li>Cannot switch on strings directly</li>
-      </ul>
-    </div>
-  `},
+</div>
+<div class="detail-section">
+  <h4>Limitations</h4>
+  <ul>
+    <li>Cases must be integer constant expressions</li>
+    <li>No ranges or complex conditions in case labels</li>
+  </ul>
+</div>
+`},
 
         {
           title: "Ternary Operator", html: `
-    <h2>Ternary</h2>
-    <p class="lede">(cond) ? a : b returns a value based on a condition. Use for short, clear choices.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Ternary</h2>
+<p class="lede">(cond) ? a : b returns a value based on a condition. Use for short, clear choices.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int a, b; cin >> a >> b;
+int main(void) {
+    int a, b; if (scanf("%d %d", &a, &b) != 2) return 0;
     int mx = (a > b) ? a : b;
-    cout << mx << '\\n';
+    printf("%d\\n", mx);
     return 0;
 }`,
           details: `
-    <h3>Ternary Operator Best Practices</h3>
-    <div class="detail-section">
-      <h4>When to Use Ternary</h4>
-      <pre><code class="language-cpp">// Good - simple assignment
-int max_val = (a > b) ? a : b;
-cout << (x >= 0 ? "non-negative" : "negative") << "\\n";
-
-// Bad - complex expressions
-int result = (very_long_condition_here) ? 
-    complex_calculation_with_multiple_steps() :
-    another_complex_calculation_here();
-
-// Better as if-else:
+<h3>Ternary Operator Best Practices</h3>
+<div class="detail-section">
+  <h4>Keep it simple</h4>
+  <pre><code class="language-c">int max_val = (a > b) ? a : b;
+printf("%s\\n", (x >= 0) ? "non-negative" : "negative");</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Avoid nested/complex ternaries</h4>
+  <pre><code class="language-c">/* Prefer if-else for complex logic */
 int result;
 if (very_long_condition_here) {
-    result = complex_calculation_with_multiple_steps();
+    result = compute_one();
 } else {
-    result = another_complex_calculation_here();
+    result = compute_two();
 }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Nested Ternary (Use Sparingly)</h4>
-      <pre><code class="language-cpp">// Readable nested ternary:
-string grade = (score >= 90) ? "A" : 
-               (score >= 80) ? "B" :
-               (score >= 70) ? "C" : "F";
-
-// Unreadable - avoid:
-int x = a ? b ? c : d ? e : f : g ? h : i;</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Type Considerations</h4>
-      <pre><code class="language-cpp">// Both branches must have compatible types
-int result = condition ? 42 : 3.14;  // result is double (promotes int)
-auto val = condition ? 1 : 2LL;      // val is long long</code></pre>
-    </div>
-  `},
+</div>
+<div class="detail-section">
+  <h4>Type considerations</h4>
+  <pre><code class="language-c">/* Both branches should be compatible types */
+int cond = 1;
+double r = cond ? 42 : 3.14; /* promoted to double */
+</code></pre>
+</div>
+`},
 
         {
           title: "Boolean Logic & Compound Conditions", html: `
-    <h2>Compound Conditions</h2>
-    <p class="lede">Combine comparisons with && and ||. Use parentheses to emphasize intent and avoid precedence mistakes.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Compound Conditions</h2>
+<p class="lede">Combine comparisons with && and ||. Use parentheses to emphasize intent and avoid precedence mistakes.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int x, L, R; cin >> x >> L >> R;
-    if (L <= x && x <= R) cout << "In range\\n";
-    else                  cout << "Out of range\\n";
+int main(void) {
+    int x, L, R; if (scanf("%d %d %d", &x, &L, &R) != 3) return 0;
+    if (L <= x && x <= R) printf("In range\\n");
+    else                  printf("Out of range\\n");
     return 0;
 }`,
           details: `
-    <h3>Boolean Logic Deep Dive</h3>
-    <div class="detail-section">
-      <h4>De Morgan's Laws</h4>
-      <pre><code class="language-cpp">// !(A && B) is equivalent to (!A || !B)
-if (!(x > 0 && y > 0)) // same as:
-if (x <= 0 || y <= 0)
+<h3>Boolean Logic Deep Dive</h3>
+<div class="detail-section">
+  <h4>De Morgan's Laws</h4>
+  <pre><code class="language-c">/* !(A && B) == (!A || !B) */
+if (!(x > 0 && y > 0)) { /* same as x <= 0 || y <= 0 */ }
 
-// !(A || B) is equivalent to (!A && !B)  
-if (!(x == 0 || y == 0)) // same as:
-if (x != 0 && y != 0)</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Complex Range Checks</h4>
-      <pre><code class="language-cpp">// Point inside rectangle
+/* !(A || B) == (!A && !B) */
+if (!(x == 0 || y == 0)) { /* same as x != 0 && y != 0 */ }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Complex range checks</h4>
+  <pre><code class="language-c">/* Point inside rectangle */
 if (x >= x1 && x <= x2 && y >= y1 && y <= y2) { /* inside */ }
 
-// Value in multiple ranges
+/* Value in multiple ranges */
 if ((x >= 1 && x <= 10) || (x >= 20 && x <= 30)) { /* valid */ }
 
-// Excluding a range
+/* Excluding a range */
 if (x < 5 || x > 15) { /* outside 5-15 range */ }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Floating Point Comparisons</h4>
-      <pre><code class="language-cpp">// Never use == with floating point
-double a = 0.1 + 0.2;
-if (a == 0.3) { /* likely false! */ }
-
-// Use epsilon comparison
+</div>
+<div class="detail-section">
+  <h4>Floating point comparisons</h4>
+  <pre><code class="language-c">#include <math.h>
 const double EPS = 1e-9;
-if (abs(a - 0.3) < EPS) { /* correct */ }</code></pre>
-    </div>
-  `},
+double a = 0.1 * 3.0;
+if (fabs(a - 0.3) < EPS) { /* close enough */ }</code></pre>
+</div>
+`},
 
         {
           title: "Short-circuiting (safety guards)", html: `
-    <h2>Short-circuiting</h2>
-    <p class="lede">In A && B, if A is false, B is not evaluated. In A || B, if A is true, B is not evaluated. Use this to guard unsafe checks.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Short-circuiting</h2>
+<p class="lede">In A && B, if A is false, B is not evaluated. In A || B, if A is true, B is not evaluated. Use this to guard unsafe checks.</p>
+`, code: `#include <stdio.h>
+#include <stdbool.h>
 
-int main() {
+int main(void) {
     bool has_value = true;
     int val = 7;
     if (has_value && val > 5) {
-        cout << "Good\\n";
+        printf("Good\\n");
     }
     return 0;
 }`,
           details: `
-    <h3>Short-Circuit Evaluation</h3>
-    <div class="detail-section">
-      <h4>Safety Guards</h4>
-      <pre><code class="language-cpp">// Prevent division by zero
+<h3>Short-Circuit Evaluation</h3>
+<div class="detail-section">
+  <h4>Safety guards</h4>
+  <pre><code class="language-c">/* Prevent division by zero */
 if (b != 0 && a / b > 10) { /* safe */ }
 
-// Array bounds checking
-if (i >= 0 && i < n && arr[i] > threshold) { /* safe */ }
-
-// Pointer checking
-if (ptr != nullptr && ptr->value > 0) { /* safe */ }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Performance Optimization</h4>
-      <pre><code class="language-cpp">// Put cheaper conditions first
-if (simple_check && expensive_function()) {
-    // expensive_function() only called if simple_check is true
-}
-
-// Put most likely false condition first for &&
-if (unlikely_condition && other_check) {
-    // other_check skipped most of the time
+/* Array bounds (conceptual; requires array and n) */
+if (i >= 0 && i < n && arr[i] > threshold) { /* safe */ }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Performance</h4>
+  <pre><code class="language-c">if (cheap_check && expensive_function()) {
+    /* expensive_function runs only if cheap_check is true */
 }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Side Effects Warning</h4>
-      <pre><code class="language-cpp">// Dangerous - increment might not happen
-if (condition && ++counter > 10) { /* risky */ }
+</div>
+<div class="detail-section">
+  <h4>Side effects warning</h4>
+  <pre><code class="language-c">/* Risky: increment might be skipped */
+if (cond && ++counter > 10) { /* ... */ }
 
-// Better - separate the side effect
-if (condition) {
+/* Better */
+if (cond) {
     ++counter;
-    if (counter > 10) { /* clear intent */ }
+    if (counter > 10) { /* ... */ }
 }</code></pre>
-    </div>
-  `},
+</div>
+`},
 
         {
           title: "Common CP Patterns (no loops)", html: `
-    <h2>Common Patterns</h2>
-    <ul>
-      <li><span class="key">Parity</span>: n % 2 == 0 (or !(n &amp; 1))</li>
-      <li><span class="key">Range</span>: L <= x && x <= R</li>
-      <li><span class="key">Divisible</span>: n % k == 0</li>
-      <li><span class="key">Early guards</span>: handle special cases first (e.g., n == 0)</li>
-    </ul>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Common Patterns</h2>
+<ul>
+  <li><span class="key">Parity</span>: n % 2 == 0 (or !(n & 1))</li>
+  <li><span class="key">Range</span>: L <= x && x <= R</li>
+  <li><span class="key">Divisible</span>: n % k == 0</li>
+  <li><span class="key">Early guards</span>: handle special cases first (e.g., n == 0)</li>
+</ul>
+`, code: `#include <stdio.h>
 
-int main() {
-    int n; cin >> n;
-    if (n % 2 == 0 && n >= 0 && n <= 100) cout << "Even in range\\n";
-    else                                  cout << "Other\\n";
+int main(void) {
+    int n; if (scanf("%d", &n) != 1) return 0;
+    if ((n % 2 == 0) && n >= 0 && n <= 100) printf("Even in range\\n");
+    else                                     printf("Other\\n");
     return 0;
 }`,
           details: `
-    <h3>Competitive Programming Patterns</h3>
-    <div class="detail-section">
-      <h4>Bit Manipulation Patterns</h4>
-      <pre><code class="language-cpp">// Check if power of 2
-if (n > 0 && (n & (n-1)) == 0) { /* power of 2 */ }
+<h3>Competitive Programming Patterns</h3>
+<div class="detail-section">
+  <h4>Bit manipulation</h4>
+  <pre><code class="language-c">/* Check power of 2 */
+if (n > 0 && (n & (n - 1)) == 0) { /* power of 2 */ }
 
-// Check specific bit
-if (n & (1 << k)) { /* k-th bit is set */ }
-
-// Toggle case (lowercase/uppercase)
-char c = 'A';
-char lower = c | 32;  // 'a'
-char upper = c & ~32; // 'A'</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Mathematical Patterns</h4>
-      <pre><code class="language-cpp">// Check if perfect square
-int root = sqrt(n);
-if (root * root == n) { /* perfect square */ }
-
-// Check if triangle number (1+2+...+k = n)
-int k = (-1 + sqrt(1 + 8*n)) / 2;
-if (k * (k+1) / 2 == n) { /* triangle number */ }
-
-// GCD quick check
-if (a % b == 0) { /* b divides a */ }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>String/Character Patterns</h4>
-      <pre><code class="language-cpp">// Check if digit
-if (c >= '0' && c <= '9') { /* digit */ }
-
-// Check if uppercase letter
-if (c >= 'A' && c <= 'Z') { /* uppercase */ }
-
-// Convert digit char to int
-int digit = c - '0';
-
-// Check if vowel
-if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') { /* vowel */ }</code></pre>
-    </div>
-  `},
+/* Check specific bit k */
+if (n & (1 << k)) { /* k-th bit set */ }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Math checks</h4>
+  <pre><code class="language-c">#include <math.h>
+int root = (int)(sqrt((double)n) + 0.0000001);
+if (1LL * root * root == n) { /* perfect square (careful with overflow) */ }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Char helpers</h4>
+  <pre><code class="language-c">#include <ctype.h>
+if (isdigit((unsigned char)c)) { /* digit */ }
+if (isupper((unsigned char)c)) { /* uppercase */ }
+int digit = c - '0';</code></pre>
+</div>
+`},
 
         {
           title: "Basics Add-on — How n Bits Map to Values", html: `
-    <h2>How Many Values with n Bits?</h2>
-    <p class="lede">n bits encode <span class="key">2^n</span> distinct patterns. Unsigned uses them all for non-negative values; signed (two's complement) splits between negative and non-negative.</p>
-    <div class="card">
-      <ul>
-        <li>Unsigned n-bit: range 0 .. 2^n - 1</li>
-        <li>Signed n-bit (two's complement): range -2^(n-1) .. 2^(n-1) - 1</li>
-        <li>Example (32-bit signed int): -2,147,483,648 .. 2,147,483,647 (~2.1e9 positive values)</li>
-      </ul>
-    </div>
-  `, code: `#include <iostream>
-#include <limits>
-using namespace std;
+<h2>How Many Values with n Bits?</h2>
+<p class="lede">n bits encode <span class="key">2^n</span> patterns. Unsigned uses 0..2^n-1; signed two's complement is -2^(n-1)..2^(n-1)-1.</p>
+<div class="card">
+  <ul>
+    <li>Unsigned n-bit: 0 .. 2^n - 1</li>
+    <li>Signed n-bit (two's complement): -2^(n-1) .. 2^(n-1) - 1</li>
+    <li>Example (32-bit int): -2,147,483,648 .. 2,147,483,647</li>
+  </ul>
+</div>
+`, code: `#include <stdio.h>
+#include <limits.h>
+#include <stdint.h>
 
-int main() {
-    cout << "unsigned 32-bit max: " << numeric_limits<uint32_t>::max() << "\\n";
-    cout << "signed 32-bit min: "  << numeric_limits<int32_t>::min()  << "\\n";
-    cout << "signed 32-bit max: "  << numeric_limits<int32_t>::max()  << "\\n";
+int main(void) {
+    printf("unsigned 32-bit max: %u\\n", UINT32_MAX);
+    printf("signed 32-bit min: %d\\n", INT32_MIN);
+    printf("signed 32-bit max: %d\\n", INT32_MAX);
     return 0;
 }`,
           details: `
-    <h3>Binary Representation & Two's Complement</h3>
-    <div class="detail-section">
-      <h4>Why 2^n Patterns?</h4>
-      <p>Each bit can be 0 or 1. With n bits, you have n independent choices, giving 2×2×...×2 = 2^n total combinations.</p>
-      <pre><code class="language-cpp">// 3 bits: 000, 001, 010, 011, 100, 101, 110, 111 = 8 patterns = 2^3</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Two's Complement Representation</h4>
-      <p>For signed integers, the highest bit is the sign bit:</p>
-      <ul>
-        <li>0 in highest bit = positive number</li>
-        <li>1 in highest bit = negative number</li>
-        <li>This splits 2^n patterns into roughly equal positive and negative ranges</li>
-        <li>One extra negative value due to 0 being positive</li>
-      </ul>
-      <pre><code class="language-cpp">// 8-bit signed: -128 to +127 (256 total values)
-// 32-bit signed: -2,147,483,648 to +2,147,483,647</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Memory and Storage</h4>
-      <pre><code class="language-cpp">cout << "Size of int: " << sizeof(int) << " bytes\\n";
-cout << "Size of long long: " << sizeof(long long) << " bytes\\n";
-cout << "Size of double: " << sizeof(double) << " bytes\\n";</code></pre>
-    </div>
-  `},
+<h3>Binary Representation & Two's Complement</h3>
+<div class="detail-section">
+  <h4>Why 2^n patterns?</h4>
+  <pre><code class="language-c">/* 3 bits: 000..111 -> 8 patterns = 2^3 */</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Two's complement</h4>
+  <pre><code class="language-c">/* 8-bit signed: -128..127; 32-bit signed: -2,147,483,648..2,147,483,647 */</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Sizes (typical)</h4>
+  <pre><code class="language-c">printf("sizeof(int) = %zu\\n", sizeof(int));
+printf("sizeof(long long) = %zu\\n", sizeof(long long));
+printf("sizeof(double) = %zu\\n", sizeof(double));</code></pre>
+</div>
+`},
 
         {
           title: "Basics Add-on — Type Casting", html: `
-    <h2>Type Casting (Conversions)</h2>
-    <p class="lede">Implicit conversions happen automatically; explicit casts are used when narrowing or changing category. Prefer safe, explicit casts when needed.</p>
-    <div class="card">
-      <ul>
-        <li>Implicit: int -> long long, int -> double (widening)</li>
-        <li>Narrowing: double -> int (fraction lost), long long -> int (overflow risk)</li>
-        <li>Use 1LL to promote arithmetic to 64-bit: <code>1LL * a * b</code></li>
-      </ul>
-    </div>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Type Casting (Conversions)</h2>
+<p class="lede">Implicit integer promotions happen; explicit casts for narrowing or changing category. Prefer safe, explicit casts.</p>
+<div class="card">
+  <ul>
+    <li>Implicit: int -> long long, int -> double (widening)</li>
+    <li>Narrowing: double -> int (fraction lost), long long -> int (overflow risk)</li>
+    <li>Use 1LL to promote arithmetic to 64-bit: <code>1LL * a * b</code></li>
+  </ul>
+</div>
+`, code: `#include <stdio.h>
 
-int main() {
-    int a = 1e9;           // 1,000,000,000
+int main(void) {
+    int a = 1000000000; // 1e9
     int b = 3;
-    long long bad = a * b; // overflow in int first! still UB/overflowed result
-    long long ok  = 1LL * a * b; // promoted to long long before multiply
+    long long bad = (long long)(a * b);   // overflow occurs before cast!
+    long long ok  = 1LL * a * b;          // promoted before multiply
 
     double x = 3.7;
-    int xi = (int)x;       // 3 (fraction truncated)
+    int xi = (int)x;       // 3
 
-    cout << "bad=" << bad << "\\n";
-    cout << "ok="  << ok  << "\\n";
-    cout << "xi="  << xi  << "\\n";
+    printf("bad=%lld\\n", bad);
+    printf("ok=%lld\\n", ok);
+    printf("xi=%d\\n", xi);
     return 0;
 }`,
           details: `
-    <h3>Type Conversion Deep Dive</h3>
-    <div class="detail-section">
-      <h4>Implicit Conversions (Dangerous)</h4>
-      <pre><code class="language-cpp">// Narrowing conversions lose data
-long long big = 5000000000LL;
-int small = big;  // Undefined behavior! Value doesn't fit
-
-// Character to integer  
-char c = 'A';
-int ascii = c;    // 65 (implicit conversion)
-
-// Bool to integer
-bool flag = true;
-int val = flag;   // 1</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Explicit Casting Types</h4>
-      <pre><code class="language-cpp">// C-style cast (avoid in modern C++)
-int x = (int)3.14;
-
-// Static cast (preferred for basic types)
-int y = static_cast<int>(3.14);
-
-// When casting for arithmetic
-double avg = static_cast<double>(sum) / count;</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>char ↔ int Conversion Examples</h4>
-      <pre><code class="language-cpp">// char to int (ASCII value)
-char letter = 'A';
-int ascii_val = letter;         // 65
-int explicit_val = (int)letter; // 65 (same result, explicit)
-
-// int to char
+<h3>Type Conversion Deep Dive</h3>
+<div class="detail-section">
+  <h4>Narrowing conversions</h4>
+  <pre><code class="language-c">long long big = 5000000000LL;
+/* Assigning to int is implementation-defined/overflow; avoid */</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Casting for arithmetic</h4>
+  <pre><code class="language-c">double avg = (double)sum / count;</code></pre>
+</div>
+<div class="detail-section">
+  <h4>char ↔ int conversion</h4>
+  <pre><code class="language-c">char letter = 'A';
+int ascii = (unsigned char)letter; /* 65 portable */
 int num = 66;
-char ch = num;                  // 'B' 
-char safe_ch = (char)num;       // 'B' (explicit)
-
-// Digit conversion
-char digit = '5';
-int value = digit - '0';        // 5 (not 53!)
-
-// Danger zone - values outside char range
-int big = 300;
-char overflow = big;            // Undefined! char range is typically -128 to 127</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Safe Conversion Practices</h4>
-      <pre><code class="language-cpp">// Check range before casting
-if (value >= CHAR_MIN && value <= CHAR_MAX) {
-    char safe_char = static_cast<char>(value);
-}
-
-// Use appropriate types from the start
-unsigned char byte = 255;  // If you need 0-255 range
-signed char sbyte = -128;  // If you need signed byte</code></pre>
-    </div>
-  `},
+char ch = (char)num; /* implementation-defined if out of range */</code></pre>
+</div>
+`},
 
         {
           title: "Basics Add-on — Usual Arithmetic Conversions", html: `
-    <h2>Usual Arithmetic Conversions</h2>
-    <p class="lede">In mixed-type expressions, C++ promotes operands to a common type. Know the rule-of-thumb to avoid surprises.</p>
-    <div class="card">
-      <ul>
-        <li>If any operand is double, result is double.</li>
-        <li>Else if any is float, result is float.</li>
-        <li>Else integers: smaller types promote to int; then to a common signed/unsigned rank.</li>
-        <li>Mixing signed and unsigned may surprise; prefer same-signed types.</li>
-      </ul>
-    </div>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Usual Arithmetic Conversions</h2>
+<p class="lede">In mixed-type expressions, C promotes operands to a common type. Know the rule-of-thumb to avoid surprises.</p>
+<div class="card">
+  <ul>
+    <li>If any operand is double, result is double; else if float, result is double (float promotes to double in varargs).</li>
+    <li>Integers: smaller types promote to int; then usual rules for signed/unsigned.</li>
+    <li>Mixing signed and unsigned can surprise; keep same-signed types.</li>
+  </ul>
+</div>
+`, code: `#include <stdio.h>
 
-int main() {
+int main(void) {
     int i = 5; unsigned u = 7;
-    cout << (i < u) << "\\n"; // OK but compare carefully; prefer same-signed
+    printf("%d\\n", (i < (int)u)); // safer
 
-    cout << (5 / 2) << "\\n";     // 2 (integer division)
-    cout << (5 / 2.0) << "\\n";   // 2.5 (promoted to double)
+    printf("%d\\n", 5 / 2);      // 2
+    printf("%.1f\\n", 5 / 2.0);  // 2.5
 
-    short s = 30000, t = 2;       // short promoted to int before multiply
-    int prod = s * t;             // no overflow at short width; check int range though
-    cout << prod << "\\n";
+    short s = 30000, t = 2;
+    int prod = s * t;            // promoted to int
+    printf("%d\\n", prod);
     return 0;
 }`,
           details: `
-    <h3>Arithmetic Conversion Rules</h3>
-    <div class="detail-section">
-      <h4>Integer Promotion Hierarchy</h4>
-      <ol>
-        <li>char, short → int (if int can represent all values)</li>
-        <li>If both operands are signed or both unsigned, convert to higher rank</li>
-        <li>If unsigned has higher/equal rank, convert signed to unsigned</li>
-        <li>If signed can represent all unsigned values, convert unsigned to signed</li>
-        <li>Otherwise, convert both to unsigned version of signed type</li>
-      </ol>
-    </div>
-    <div class="detail-section">
-      <h4>Dangerous Signed/Unsigned Mixing</h4>
-      <pre><code class="language-cpp">int a = -1;
-unsigned b = 1;
-cout << (a < b) << "\\n";        // 0 (false!) 
-// -1 is converted to huge unsigned value
-
-// Safer alternatives:
-cout << (a < (int)b) << "\\n";   // 1 (true)
-cout << ((long long)a < b) << "\\n"; // 1 (true)</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Floating Point Promotion</h4>
-      <pre><code class="language-cpp">float f = 3.5f;
+<h3>Rules overview</h3>
+<div class="detail-section">
+  <h4>Integer promotions and ranks</h4>
+  <ol>
+    <li>char, short -> int (if int can represent all values)</li>
+    <li>If both signed or both unsigned, convert to higher rank</li>
+    <li>If unsigned rank >= signed rank, signed converts to unsigned</li>
+  </ol>
+</div>
+<div class="detail-section">
+  <h4>Floating promotions</h4>
+  <pre><code class="language-c">float f = 3.5f;
 double d = 2.1;
-auto result = f + d;             // result is double
-
-int i = 10;
-float average = i / 3;           // 3.0 (integer division first!)
-float correct = i / 3.0f;        // 3.33333 (promotes to float)</code></pre>
-    </div>
-  `},
+double r = f + d; /* becomes double */</code></pre>
+</div>
+`},
 
         {
           title: "Basics Add-on — Floating-Point Gotchas", html: `
-    <h2>Floating-Point Basics</h2>
-    <p class="lede">double has about ~15–17 decimal digits of precision. Avoid equality checks; use eps. Large ints may not fit exactly.</p>
-    <div class="card">
-      <ul>
-        <li>Never compare doubles with ==; compare with tolerance.</li>
-        <li>Big integers beyond 2^53 cannot be represented exactly in double.</li>
-        <li>Cast after finishing integer math to keep precision.</li>
-      </ul>
-    </div>
-  `, code: `#include <iostream>
-#include <cmath>
-using namespace std;
+<h2>Floating-Point Basics</h2>
+<p class="lede">double has ~15–17 decimal digits precision. Avoid equality checks; use epsilon. Large ints may not fit exactly in double.</p>
+<div class="card">
+  <ul>
+    <li>Never compare doubles with ==; compare with tolerance.</li>
+    <li>Integers beyond 2^53 cannot be represented exactly in double.</li>
+    <li>Cast after finishing integer math to keep precision.</li>
+  </ul>
+</div>
+`, code: `#include <stdio.h>
+#include <math.h>
 
-int main() {
-    double a = 0.1 * 3;        // not exactly 0.3 in binary
+int main(void) {
+    double a = 0.1 * 3.0;
     double b = 0.3;
     double eps = 1e-9;
-    cout << (fabs(a - b) < eps ? "Close\\n" : "Not close\\n");
+    printf("%s\\n", fabs(a - b) < eps ? "Close" : "Not close");
 
     long long big = 9007199254740993LL; // 2^53 + 1
     double d = (double)big;
-    cout << fixed;
-    cout << "big=" << big << "\\n";
-    cout << "double(big)=" << d << "\\n"; // may print 9007199254740992
+    printf("big=%lld\\n", big);
+    printf("double(big)=%.0f\\n", d); // may print 9007199254740992
 
-    // Cast late:
     int x = 5, y = 2;
-    cout << (x / y) << "\\n";          // 2
-    cout << (x / (double)y) << "\\n";  // 2.5
+    printf("%d\\n", x / y);            // 2
+    printf("%.1f\\n", x / (double)y);  // 2.5
     return 0;
 }`,
           details: `
-    <h3>IEEE 754 Floating Point</h3>
-    <div class="detail-section">
-      <h4>Why 0.1 + 0.2 ≠ 0.3?</h4>
-      <p>Binary floating point cannot exactly represent most decimal fractions. 0.1 in decimal is a repeating fraction in binary (like 1/3 in decimal).</p>
-      <pre><code class="language-cpp">#include <iomanip>
-cout << setprecision(17);
-double x = 0.1;
-cout << x << "\\n";  // 0.10000000000000001</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Safe Floating Point Comparison</h4>
-      <pre><code class="language-cpp">bool equal_eps(double a, double b, double eps = 1e-9) {
-    return fabs(a - b) < eps;
-}
-
-// Relative epsilon for very large/small numbers
-bool equal_rel(double a, double b, double rel_eps = 1e-9) {
-    return fabs(a - b) < rel_eps * max(fabs(a), fabs(b));
+<h3>IEEE 754 Notes</h3>
+<div class="detail-section">
+  <h4>Why 0.1 + 0.2 != 0.3 exactly</h4>
+  <pre><code class="language-c">#include <stdio.h>
+int main(void){
+  printf("%.17f\\n", 0.1); /* 0.10000000000000001 on many systems */
+  return 0;
 }</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Integer Precision Limits</h4>
-      <pre><code class="language-cpp">// double can exactly represent integers up to 2^53
-long long safe = (1LL << 53);      // 9,007,199,254,740,992
-long long unsafe = safe + 1;       // 9,007,199,254,740,993
+</div>
+<div class="detail-section">
+  <h4>Epsilon helpers</h4>
+  <pre><code class="language-c">#include <math.h>
+int equal_eps(double x, double y, double eps){ return fabs(x - y) < eps; }</code></pre>
+</div>
+<div class="detail-section">
+  <h4>Special values</h4>
+  <pre><code class="language-c">#include <math.h>
+double inf = INFINITY;
+double nanv = NAN;
+/* isnan(nanv), isinf(inf) available via math.h */</code></pre>
+</div>
+`},
 
-double d1 = (double)safe;
-double d2 = (double)unsafe;
-cout << (d1 == d2) << "\\n";        // May be 1 (true)!</code></pre>
-    </div>
-    <div class="detail-section">
-      <h4>Special Values</h4>
-      <pre><code class="language-cpp">#include <limits>
-double inf = numeric_limits<double>::infinity();
-double nan = numeric_limits<double>::quiet_NaN();
+        /* Practice problems 1–24 converted to C (same statements) */
 
-cout << (inf == inf) << "\\n";      // 1 (true)
-cout << (nan == nan) << "\\n";      // 0 (false!)
-cout << isnan(nan) << "\\n";        // 1 (true)
-cout << isinf(inf) << "\\n";        // 1 (true)</code></pre>
-    </div>
-  `},
-
-        // PRACTICE PROBLEMS WITH COMPLETE DESCRIPTIONS
         {
           title: "Practice Set — Basic Problems (1-8)", html: `
-    <h2>Practice Problems — Part 1: Fundamentals</h2>
-    <p class="lede">Master the basics first. Try each problem before looking at solutions.</p>
-
-    <div class="problem">
-      <h3>Problem 1: Even or Odd</h3>
-      <p><strong>Description:</strong> Given an integer, determine whether it's even or odd.</p>
-      <p><strong>Input:</strong> A single integer N (-10^9 ≤ N ≤ 10^9)</p>
-      <p><strong>Output:</strong> Print "Even" if the number is even, "Odd" if it's odd</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 4<br>
-        Output: Even<br><br>
-        Input: -7<br>
-        Output: Odd
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 2: Maximum of Three Numbers</h3>
-      <p><strong>Description:</strong> Find the largest among three given integers.</p>
-      <p><strong>Input:</strong> Three integers a, b, c (-1000 ≤ a,b,c ≤ 1000)</p>
-      <p><strong>Output:</strong> Print the maximum value</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 5 2 8<br>
-        Output: 8<br><br>
-        Input: -1 -5 -2<br>
-        Output: -1
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 3: Leap Year</h3>
-      <p><strong>Description:</strong> A year is a leap year if it's divisible by 4, except for century years which must be divisible by 400.</p>
-      <p><strong>Input:</strong> A year Y (1 ≤ Y ≤ 3000)</p>
-      <p><strong>Output:</strong> Print "YES" if it's a leap year, "NO" otherwise</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 2020<br>
-        Output: YES<br><br>
-        Input: 1900<br>
-        Output: NO<br><br>
-        Input: 2000<br>
-        Output: YES
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 4: Vowel or Consonant</h3>
-      <p><strong>Description:</strong> Given a single alphabet character, determine if it's a vowel or consonant.</p>
-      <p><strong>Input:</strong> A single alphabet character (both uppercase and lowercase possible)</p>
-      <p><strong>Output:</strong> Print "Vowel" or "Consonant"</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: A<br>
-        Output: Vowel<br><br>
-        Input: b<br>
-        Output: Consonant<br><br>
-        Input: E<br>
-        Output: Vowel
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 5: Triangle Validity</h3>
-      <p><strong>Description:</strong> Given three side lengths, determine if they can form a valid triangle. For a valid triangle, sum of any two sides must be greater than the third side.</p>
-      <p><strong>Input:</strong> Three positive integers a, b, c representing side lengths</p>
-      <p><strong>Output:</strong> Print "Yes" if valid triangle, "No" otherwise</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 3 4 5<br>
-        Output: Yes<br><br>
-        Input: 1 1 5<br>
-        Output: No
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 6: Simple Calculator</h3>
-      <p><strong>Description:</strong> Perform basic arithmetic operations (+, -, *, /, %) with error handling for division by zero.</p>
-      <p><strong>Input:</strong> Two integers a, b and an operator op</p>
-      <p><strong>Output:</strong> Result of a op b, or "ERR" if division/modulo by zero</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 8 / 2<br>
-        Output: 4<br><br>
-        Input: 5 % 0<br>
-        Output: ERR<br><br>
-        Input: 7 + 3<br>
-        Output: 10
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 7: Range Check</h3>
-      <p><strong>Description:</strong> Check if a given number falls within a specified range [L, R] (inclusive).</p>
-      <p><strong>Input:</strong> Three integers: number x, range bounds L and R</p>
-      <p><strong>Output:</strong> Print "IN" if x is in range, "OUT" otherwise</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 5 1 10<br>
-        Output: IN<br><br>
-        Input: 15 1 10<br>
-        Output: OUT
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 8: Power of Two</h3>
-      <p><strong>Description:</strong> Check if a positive integer is a power of 2 using bitwise operations.</p>
-      <p><strong>Input:</strong> A positive integer N (1 ≤ N ≤ 10^18)</p>
-      <p><strong>Output:</strong> Print "YES" if N is a power of 2, "NO" otherwise</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 8<br>
-        Output: YES<br><br>
-        Input: 10<br>
-        Output: NO<br><br>
-        Input: 1<br>
-        Output: YES
-      </div>
-    </div>
-  `},
+<h2>Practice Problems — Part 1: Fundamentals</h2>
+<p class="lede">Master the basics first. Try each problem before looking at solutions.</p>
+<div class="problem">
+  <h3>Problem 1: Even or Odd</h3>
+  <p><strong>Description:</strong> Given an integer, determine whether it's even or odd.</p>
+  <p><strong>Input:</strong> A single integer N (-10^9 ≤ N ≤ 10^9)</p>
+  <p><strong>Output:</strong> Print "Even" or "Odd"</p>
+</div>
+<div class="problem">
+  <h3>Problem 2: Maximum of Three Numbers</h3>
+  <p><strong>Description:</strong> Find the largest among three given integers.</p>
+</div>
+<div class="problem">
+  <h3>Problem 3: Leap Year</h3>
+  <p><strong>Description:</strong> Year is leap if divisible by 4 except centuries must be divisible by 400.</p>
+</div>
+<div class="problem">
+  <h3>Problem 4: Vowel or Consonant</h3>
+  <p><strong>Description:</strong> Given a single alphabet character, determine if it's a vowel or consonant.</p>
+</div>
+<div class="problem">
+  <h3>Problem 5: Triangle Validity</h3>
+  <p><strong>Description:</strong> Given three side lengths, determine if they can form a valid triangle.</p>
+</div>
+<div class="problem">
+  <h3>Problem 6: Simple Calculator</h3>
+  <p><strong>Description:</strong> Perform +, -, *, /, % with division-by-zero handling.</p>
+</div>
+<div class="problem">
+  <h3>Problem 7: Range Check</h3>
+  <p><strong>Description:</strong> Check if x is in [L, R].</p>
+</div>
+<div class="problem">
+  <h3>Problem 8: Power of Two</h3>
+  <p><strong>Description:</strong> Check if N is a power of 2 using bitwise operations.</p>
+</div>
+`},
 
         {
           title: "Practice Set — Intermediate Problems (9-16)", html: `
-    <h2>Practice Problems — Part 2: Conditionals</h2>
-    <p class="lede">More complex conditional logic and edge cases.</p>
-
-    <div class="problem">
-      <h3>Problem 9: Grade Calculator</h3>
-      <p><strong>Description:</strong> Convert a numerical score (0-100) to a letter grade using the standard scale.</p>
-      <p><strong>Input:</strong> An integer score (0 ≤ score ≤ 100, or invalid input)</p>
-      <p><strong>Output:</strong> Letter grade: A (90-100), B (80-89), C (70-79), D (60-69), F (0-59), or "Invalid" for out-of-range</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 95<br>
-        Output: A<br><br>
-        Input: 67<br>
-        Output: D<br><br>
-        Input: 150<br>
-        Output: Invalid
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 10: Quadrant Finder</h3>
-      <p><strong>Description:</strong> Given coordinates (x, y), determine which quadrant the point lies in, or if it's on an axis.</p>
-      <p><strong>Input:</strong> Two integers x and y representing coordinates</p>
-      <p><strong>Output:</strong> "Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV", "X-axis", "Y-axis", or "Origin"</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 3 4<br>
-        Output: Quadrant I<br><br>
-        Input: -2 5<br>
-        Output: Quadrant II<br><br>
-        Input: 0 0<br>
-        Output: Origin
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 11: Age Category</h3>
-      <p><strong>Description:</strong> Classify a person's age into life stage categories.</p>
-      <p><strong>Input:</strong> Age in years (non-negative integer)</p>
-      <p><strong>Output:</strong> "Child" (0-12), "Teen" (13-19), "Adult" (20-64), "Senior" (65+), or "Invalid" for negative ages</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 8<br>
-        Output: Child<br><br>
-        Input: 25<br>
-        Output: Adult<br><br>
-        Input: -5<br>
-        Output: Invalid
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 12: Temperature Converter</h3>
-      <p><strong>Description:</strong> Convert temperature between Celsius (C), Fahrenheit (F), and Kelvin (K).</p>
-      <p><strong>Input:</strong> Temperature value, source unit, target unit (e.g., "25.0 C F")</p>
-      <p><strong>Output:</strong> Converted temperature value, or "Invalid" for unknown units</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 25.0 C F<br>
-        Output: 77<br><br>
-        Input: 100 C K<br>
-        Output: 373.15<br><br>
-        Input: 50 X Y<br>
-        Output: Invalid
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 13: Day of Week</h3>
-      <p><strong>Description:</strong> Given a number (1-7), output the corresponding day of the week.</p>
-      <p><strong>Input:</strong> An integer representing day number (1 = Monday)</p>
-      <p><strong>Output:</strong> Day name or "Invalid" for numbers outside 1-7</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 1<br>
-        Output: Monday<br><br>
-        Input: 7<br>
-        Output: Sunday<br><br>
-        Input: 8<br>
-        Output: Invalid
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 14: BMI Calculator</h3>
-      <p><strong>Description:</strong> Calculate Body Mass Index and categorize health status. BMI = weight/(height^2)</p>
-      <p><strong>Input:</strong> Weight in kg and height in meters (positive real numbers)</p>
-      <p><strong>Output:</strong> "Underweight" (<18.5), "Normal" (18.5-24.9), "Overweight" (25-29.9), "Obese" (≥30), or "Invalid" for non-positive inputs</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 70 1.75<br>
-        Output: Normal<br><br>
-        Input: 0 1.7<br>
-        Output: Invalid
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 15: Time Format Converter</h3>
-      <p><strong>Description:</strong> Convert 24-hour format to 12-hour format with AM/PM.</p>
-      <p><strong>Input:</strong> Hour (0-23) and minute (0-59)</p>
-      <p><strong>Output:</strong> Time in 12-hour format, or "Invalid" for out-of-range values</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 14 30<br>
-        Output: 2:30 PM<br><br>
-        Input: 0 15<br>
-        Output: 12:15 AM<br><br>
-        Input: 25 30<br>
-        Output: Invalid
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 16: Discount Calculator</h3>
-      <p><strong>Description:</strong> Apply tiered discount based on purchase amount: 5% (any), 10% (≥100), 15% (≥500), 20% (≥1000).</p>
-      <p><strong>Input:</strong> Purchase amount (non-negative real number)</p>
-      <p><strong>Output:</strong> Final amount after discount, or "Invalid" for negative amounts</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 150<br>
-        Output: 135<br><br>
-        Input: 1200<br>
-        Output: 960<br><br>
-        Input: -50<br>
-        Output: Invalid
-      </div>
-    </div>
-  `},
+<h2>Practice Problems — Part 2: Conditionals</h2>
+<p class="lede">More complex conditional logic and edge cases.</p>
+<div class="problem"><h3>Problem 9: Grade Calculator</h3></div>
+<div class="problem"><h3>Problem 10: Quadrant Finder</h3></div>
+<div class="problem"><h3>Problem 11: Age Category</h3></div>
+<div class="problem"><h3>Problem 12: Temperature Converter</h3></div>
+<div class="problem"><h3>Problem 13: Day of Week</h3></div>
+<div class="problem"><h3>Problem 14: BMI Calculator</h3></div>
+<div class="problem"><h3>Problem 15: Time Format Converter</h3></div>
+<div class="problem"><h3>Problem 16: Discount Calculator</h3></div>
+`},
 
         {
           title: "Practice Set — Advanced Problems (17-24)", html: `
-    <h2>Practice Problems — Part 3: Logic & Types</h2>
-    <p class="lede">Complex boolean logic, type casting, and bit manipulation.</p>
+<h2>Practice Problems — Part 3: Logic & Types</h2>
+<p class="lede">Complex boolean logic, type casting, and bit manipulation.</p>
+<div class="problem"><h3>Problem 17: Valid Date</h3></div>
+<div class="problem"><h3>Problem 18: Character Classifier</h3></div>
+<div class="problem"><h3>Problem 19: Number System Identifier</h3></div>
+<div class="problem"><h3>Problem 20: Overflow Detection</h3></div>
+<div class="problem"><h3>Problem 21: Bit Counter</h3></div>
+<div class="problem"><h3>Problem 22: Password Strength</h3></div>
+<div class="problem"><h3>Problem 23: Operator Precedence Prediction</h3></div>
+<div class="problem"><h3>Problem 24: Type Casting Effects</h3></div>
+`},
 
-    <div class="problem">
-      <h3>Problem 17: Valid Date</h3>
-      <p><strong>Description:</strong> Check if a given date (day/month/year) is valid, considering leap years and month-specific day limits.</p>
-      <p><strong>Input:</strong> Three integers: day, month, year</p>
-      <p><strong>Output:</strong> "Valid" or "Invalid"</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 29 2 2020<br>
-        Output: Valid<br><br>
-        Input: 29 2 2021<br>
-        Output: Invalid<br><br>
-        Input: 31 4 2022<br>
-        Output: Invalid
-      </div>
-    </div>
+        /* Solutions in C */
 
-    <div class="problem">
-      <h3>Problem 18: Character Classifier</h3>
-      <p><strong>Description:</strong> Classify a character as digit (0-9), letter (a-z, A-Z), or special character using ASCII values.</p>
-      <p><strong>Input:</strong> A single character</p>
-      <p><strong>Output:</strong> "Digit", "Letter", or "Special"</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 7<br>
-        Output: Digit<br><br>
-        Input: A<br>
-        Output: Letter<br><br>
-        Input: @<br>
-        Output: Special
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 19: Number System Identifier</h3>
-      <p><strong>Description:</strong> Identify the number system based on prefix: 0x/0X (hex), 0b (binary), 0 followed by digit (octal), or decimal.</p>
-      <p><strong>Input:</strong> A string representing a number</p>
-      <p><strong>Output:</strong> "Hexadecimal", "Binary", "Octal", or "Decimal"</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 0xFF<br>
-        Output: Hexadecimal<br><br>
-        Input: 0b1010<br>
-        Output: Binary<br><br>
-        Input: 077<br>
-        Output: Octal<br><br>
-        Input: 123<br>
-        Output: Decimal
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 20: Overflow Detection</h3>
-      <p><strong>Description:</strong> Check if addition or multiplication of two integers would cause overflow before performing the operation.</p>
-      <p><strong>Input:</strong> Two integers a, b and operation (+ or *)</p>
-      <p><strong>Output:</strong> Result of operation, or "Overflow" if it would exceed long long range</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 1000000000000000000 1000000000000000000 +<br>
-        Output: 2000000000000000000<br><br>
-        Input: 9223372036854775807 2 +<br>
-        Output: Overflow
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 21: Bit Counter</h3>
-      <p><strong>Description:</strong> Count the number of set bits (1s) in the binary representation of a number.</p>
-      <p><strong>Input:</strong> A non-negative integer N</p>
-      <p><strong>Output:</strong> Number of 1-bits in binary representation of N</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: 7<br>
-        Output: 3<br>
-        (7 = 111 in binary)<br><br>
-        Input: 8<br>
-        Output: 1<br>
-        (8 = 1000 in binary)
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 22: Password Strength</h3>
-      <p><strong>Description:</strong> Evaluate password strength: Weak (length < 6), Medium (length ≥ 6), Strong (length ≥ 8 and at least 3 of: uppercase, lowercase, digit, special character).</p>
-      <p><strong>Input:</strong> A string representing the password</p>
-      <p><strong>Output:</strong> "Weak", "Medium", or "Strong"</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        Input: abc<br>
-        Output: Weak<br><br>
-        Input: password123<br>
-        Output: Medium<br><br>
-        Input: Pass123!<br>
-        Output: Strong
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 23: Operator Precedence Prediction</h3>
-      <p><strong>Description:</strong> Given an expression with multiple operators, predict the result considering C++ operator precedence rules.</p>
-      <p><strong>Input:</strong> Values of variables a=5, b=3, c=2, predict results of given expressions</p>
-      <p><strong>Output:</strong> Numerical results of: a+b*c, (a+b)*c, a>b&&b>c, a==5||b==2&&c==1, ++a*b--</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        With a=5, b=3, c=2:<br>
-        a+b*c = 11<br>
-        (a+b)*c = 16<br>
-        a>b&&b>c = 1<br>
-        a==5||b==2&&c==1 = 1<br>
-        ++a*b-- = 18
-      </div>
-    </div>
-
-    <div class="problem">
-      <h3>Problem 24: Type Casting Effects</h3>
-      <p><strong>Description:</strong> Demonstrate the effects of various type conversions in C++.</p>
-      <p><strong>Input:</strong> Various conversion scenarios</p>
-      <p><strong>Output:</strong> Results of: (char)65, (int)'B', (int)3.14, true+5, (char)200 (if char is signed)</p>
-      <div class="example">
-        <strong>Example:</strong><br>
-        (char)65 → A<br>
-        (int)'B' → 66<br>
-        (int)3.14 → 3<br>
-        true+5 → 6<br>
-        (char)200 → -56 (on systems where char is signed)
-      </div>
-    </div>
-  `},
-
-        // ALL SOLUTION SLIDES
         {
           title: "Solution 1 — Even or Odd", html: `
-    <h2>Solution: Even or Odd</h2>
-    <p class="lede">Check remainder by 2 or use the low bit with &amp; 1.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Even or Odd</h2>
+<p class="lede">Check remainder by 2 or low bit with & 1.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    long long n; cin >> n;
-    cout << ((n & 1) ? "Odd\\n" : "Even\\n");
+int main(void) {
+    long long n; if (scanf("%lld", &n) != 1) return 0;
+    printf("%s\\n", (n & 1) ? "Odd" : "Even");
     return 0;
 }`},
 
         {
           title: "Solution 2 — Max of Three", html: `
-    <h2>Solution: Max of Three</h2>
-    <p class="lede">Use nested max or nested ternary. max(a, max(b, c)) is clear and standard.</p>
-  `, code: `#include <iostream>
-#include <algorithm>
-using namespace std;
+<h2>Solution: Max of Three</h2>
+<p class="lede">Use comparisons to track the maximum.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int a, b, c; cin >> a >> b >> c;
-    int mx = max(a, max(b, c));
-    cout << mx << "\\n";
+int main(void) {
+    int a, b, c; if (scanf("%d %d %d", &a, &b, &c) != 3) return 0;
+    int mx = a;
+    if (b > mx) mx = b;
+    if (c > mx) mx = c;
+    printf("%d\\n", mx);
     return 0;
 }`},
 
         {
           title: "Solution 3 — Leap Year", html: `
-    <h2>Solution: Leap Year</h2>
-    <p class="lede">Divisible by 4 and not by 100, unless divisible by 400.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Leap Year</h2>
+<p class="lede">Divisible by 4 and not by 100, unless divisible by 400.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int y; cin >> y;
-    bool leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
-    cout << (leap ? "YES\\n" : "NO\\n");
+int main(void) {
+    int y; if (scanf("%d", &y) != 1) return 0;
+    int leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+    printf("%s\\n", leap ? "YES" : "NO");
     return 0;
 }`},
 
         {
           title: "Solution 4 — Vowel or Consonant", html: `
-    <h2>Solution: Vowel or Consonant</h2>
-    <p class="lede">Normalize with tolower. Optionally validate alphabetic input.</p>
-  `, code: `#include <iostream>
-#include <cctype>
-using namespace std;
+<h2>Solution: Vowel or Consonant</h2>
+<p class="lede">Normalize with tolower. Optionally validate alphabetic input.</p>
+`, code: `#include <stdio.h>
+#include <ctype.h>
 
-int main() {
-    char ch; cin >> ch;
-    ch = tolower((unsigned char)ch);
-    if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u') cout << "Vowel\\n";
-    else                                             cout << "Consonant\\n";
+int main(void) {
+    int ch = getchar();
+    if (ch == EOF) return 0;
+    ch = tolower(ch);
+    if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u') printf("Vowel\\n");
+    else                                             printf("Consonant\\n");
     return 0;
 }`},
 
         {
           title: "Solution 5 — Triangle Validity", html: `
-    <h2>Solution: Triangle Validity</h2>
-    <p class="lede">Sides must be positive and satisfy all triangle inequalities.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Triangle Validity</h2>
+<p class="lede">Sides must be positive and satisfy triangle inequalities.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    long long a, b, c; cin >> a >> b >> c;
+int main(void) {
+    long long a, b, c; if (scanf("%lld %lld %lld", &a, &b, &c) != 3) return 0;
     if (a > 0 && b > 0 && c > 0 &&
         a + b > c && a + c > b && b + c > a)
-        cout << "Yes\\n";
+        printf("Yes\\n");
     else
-        cout << "No\\n";
+        printf("No\\n");
     return 0;
 }`},
 
         {
           title: "Solution 6 — Simple Calculator", html: `
-    <h2>Solution: Simple Calculator</h2>
-    <p class="lede">Guard division and modulo by zero. Read format: a op b (e.g., 8 / 2).</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Simple Calculator</h2>
+<p class="lede">Guard division and modulo by zero. Read format: a op b (e.g., 8 / 2).</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    long long a, b; char op; cin >> a >> op >> b;
-    if (op == '+') cout << a + b << "\\n";
-    else if (op == '-') cout << a - b << "\\n";
-    else if (op == '*') cout << a * b << "\\n";
-    else if (op == '/') { if (b == 0) cout << "ERR\\n"; else cout << (a / b) << "\\n"; }
-    else if (op == '%') { if (b == 0) cout << "ERR\\n"; else cout << (a % b) << "\\n"; }
-    else cout << "Unknown op\\n";
+int main(void) {
+    long long a, b; char op;
+    if (scanf("%lld %c %lld", &a, &op, &b) != 3) return 0;
+    if (op == '+') printf("%lld\\n", a + b);
+    else if (op == '-') printf("%lld\\n", a - b);
+    else if (op == '*') printf("%lld\\n", a * b);
+    else if (op == '/') { if (b == 0) printf("ERR\\n"); else printf("%lld\\n", a / b); }
+    else if (op == '%') { if (b == 0) printf("ERR\\n"); else printf("%lld\\n", a % b); }
+    else printf("Unknown op\\n");
     return 0;
 }`},
 
         {
           title: "Solution 7 — Range Check", html: `
-    <h2>Solution: Range Check</h2>
-    <p class="lede">Inclusive bounds: L <= x <= R.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Range Check</h2>
+<p class="lede">Inclusive bounds: L <= x <= R.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    int x, L, R; cin >> x >> L >> R;
-    cout << ((L <= x && x <= R) ? "IN\\n" : "OUT\\n");
+int main(void) {
+    int x, L, R; if (scanf("%d %d %d", &x, &L, &R) != 3) return 0;
+    printf("%s\\n", (L <= x && x <= R) ? "IN" : "OUT");
     return 0;
 }`},
 
         {
           title: "Solution 8 — Power of Two", html: `
-    <h2>Solution: Power of Two</h2>
-    <p class="lede">For n > 0, exactly one bit set: n &amp; (n-1) clears the lowest set bit. Result is zero only for powers of two.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Power of Two</h2>
+<p class="lede">For n > 0, exactly one bit set: n & (n-1) == 0.</p>
+`, code: `#include <stdio.h>
 
-int main() {
-    long long n; cin >> n;
-    if (n > 0 && (n & (n - 1)) == 0) cout << "YES\\n";
-    else                              cout << "NO\\n";
+int main(void) {
+    long long n; if (scanf("%lld", &n) != 1) return 0;
+    if (n > 0 && (n & (n - 1)) == 0) printf("YES\\n");
+    else                              printf("NO\\n");
     return 0;
 }`},
 
         {
           title: "Solution 9 — Grade Calculator", html: `
-    <h2>Solution: Grade Calculator</h2>
-    <p class="lede">Convert score to letter grade. Handle edge cases and invalid input.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Grade Calculator</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    int score; cin >> score;
-    if (score < 0 || score > 100) {
-        cout << "Invalid\\n";
-    } else if (score >= 90) {
-        cout << "A\\n";
-    } else if (score >= 80) {
-        cout << "B\\n";
-    } else if (score >= 70) {
-        cout << "C\\n";
-    } else if (score >= 60) {
-        cout << "D\\n";
-    } else {
-        cout << "F\\n";
-    }
+int main(void) {
+    int score; if (scanf("%d", &score) != 1) return 0;
+    if (score < 0 || score > 100) printf("Invalid\\n");
+    else if (score >= 90) printf("A\\n");
+    else if (score >= 80) printf("B\\n");
+    else if (score >= 70) printf("C\\n");
+    else if (score >= 60) printf("D\\n");
+    else printf("F\\n");
     return 0;
 }`},
 
         {
           title: "Solution 10 — Quadrant Finder", html: `
-    <h2>Solution: Quadrant Finder</h2>
-    <p class="lede">Handle axes cases separately. Quadrants based on sign combinations.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Quadrant Finder</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    int x, y; cin >> x >> y;
-    if (x == 0 && y == 0) {
-        cout << "Origin\\n";
-    } else if (x == 0) {
-        cout << "Y-axis\\n";
-    } else if (y == 0) {
-        cout << "X-axis\\n";
-    } else if (x > 0 && y > 0) {
-        cout << "Quadrant I\\n";
-    } else if (x < 0 && y > 0) {
-        cout << "Quadrant II\\n";
-    } else if (x < 0 && y < 0) {
-        cout << "Quadrant III\\n";
-    } else {
-        cout << "Quadrant IV\\n";
-    }
+int main(void) {
+    int x, y; if (scanf("%d %d", &x, &y) != 2) return 0;
+    if (x == 0 && y == 0) printf("Origin\\n");
+    else if (x == 0)      printf("Y-axis\\n");
+    else if (y == 0)      printf("X-axis\\n");
+    else if (x > 0 && y > 0) printf("Quadrant I\\n");
+    else if (x < 0 && y > 0) printf("Quadrant II\\n");
+    else if (x < 0 && y < 0) printf("Quadrant III\\n");
+    else                      printf("Quadrant IV\\n");
     return 0;
 }`},
 
         {
           title: "Solution 11 — Age Category", html: `
-    <h2>Solution: Age Category</h2>
-    <p class="lede">Classify age into life stages. Note boundary conditions.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Age Category</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    int age; cin >> age;
-    if (age < 0) {
-        cout << "Invalid\\n";
-    } else if (age <= 12) {
-        cout << "Child\\n";
-    } else if (age <= 19) {
-        cout << "Teen\\n";
-    } else if (age <= 64) {
-        cout << "Adult\\n";
-    } else {
-        cout << "Senior\\n";
-    }
+int main(void) {
+    int age; if (scanf("%d", &age) != 1) return 0;
+    if (age < 0) printf("Invalid\\n");
+    else if (age <= 12) printf("Child\\n");
+    else if (age <= 19) printf("Teen\\n");
+    else if (age <= 64) printf("Adult\\n");
+    else printf("Senior\\n");
     return 0;
 }`},
 
         {
           title: "Solution 12 — Temperature Converter", html: `
-    <h2>Solution: Temperature Converter</h2>
-    <p class="lede">Convert between C, F, K with input validation and proper casting.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Temperature Converter</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    double temp; char from, to; 
-    cin >> temp >> from >> to;
-    
-    // Convert to Celsius first
+int main(void) {
+    double temp; char from, to;
+    if (scanf("%lf %c %c", &temp, &from, &to) != 3) return 0;
+
     double celsius;
     if (from == 'C') celsius = temp;
-    else if (from == 'F') celsius = (temp - 32) * 5.0 / 9.0;
+    else if (from == 'F') celsius = (temp - 32.0) * 5.0 / 9.0;
     else if (from == 'K') celsius = temp - 273.15;
-    else { cout << "Invalid\\n"; return 0; }
-    
-    // Convert from Celsius to target
+    else { printf("Invalid\\n"); return 0; }
+
     double result;
     if (to == 'C') result = celsius;
-    else if (to == 'F') result = celsius * 9.0 / 5.0 + 32;
+    else if (to == 'F') result = celsius * 9.0 / 5.0 + 32.0;
     else if (to == 'K') result = celsius + 273.15;
-    else { cout << "Invalid\\n"; return 0; }
-    
-    cout << result << "\\n";
+    else { printf("Invalid\\n"); return 0; }
+
+    printf("%.6f\\n", result);
     return 0;
 }`},
 
         {
           title: "Solution 13 — Day of Week", html: `
-    <h2>Solution: Day of Week</h2>
-    <p class="lede">Switch statement practice. Handle invalid input gracefully.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Day of Week</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    int day; cin >> day;
+int main(void) {
+    int day; if (scanf("%d", &day) != 1) return 0;
     switch (day) {
-        case 1: cout << "Monday\\n"; break;
-        case 2: cout << "Tuesday\\n"; break;
-        case 3: cout << "Wednesday\\n"; break;
-        case 4: cout << "Thursday\\n"; break;
-        case 5: cout << "Friday\\n"; break;
-        case 6: cout << "Saturday\\n"; break;
-        case 7: cout << "Sunday\\n"; break;
-        default: cout << "Invalid\\n";
+        case 1: printf("Monday\\n"); break;
+        case 2: printf("Tuesday\\n"); break;
+        case 3: printf("Wednesday\\n"); break;
+        case 4: printf("Thursday\\n"); break;
+        case 5: printf("Friday\\n"); break;
+        case 6: printf("Saturday\\n"); break;
+        case 7: printf("Sunday\\n"); break;
+        default: printf("Invalid\\n");
     }
     return 0;
 }`},
 
         {
           title: "Solution 14 — BMI Calculator", html: `
-    <h2>Solution: BMI Calculator</h2>
-    <p class="lede">Calculate BMI and categorize. Handle edge cases and division safety.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: BMI Calculator</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    double weight, height; cin >> weight >> height;
-    if (weight <= 0 || height <= 0) {
-        cout << "Invalid\\n";
-        return 0;
-    }
-    
+int main(void) {
+    double weight, height; if (scanf("%lf %lf", &weight, &height) != 2) return 0;
+    if (weight <= 0 || height <= 0) { printf("Invalid\\n"); return 0; }
     double bmi = weight / (height * height);
-    if (bmi < 18.5) {
-        cout << "Underweight\\n";
-    } else if (bmi < 25) {
-        cout << "Normal\\n";
-    } else if (bmi < 30) {
-        cout << "Overweight\\n";
-    } else {
-        cout << "Obese\\n";
-    }
+    if (bmi < 18.5) printf("Underweight\\n");
+    else if (bmi < 25.0) printf("Normal\\n");
+    else if (bmi < 30.0) printf("Overweight\\n");
+    else printf("Obese\\n");
     return 0;
 }`},
 
         {
           title: "Solution 15 — Time Format", html: `
-    <h2>Solution: Time Format</h2>
-    <p class="lede">Convert 24h to 12h format. Handle midnight and noon special cases.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Time Format</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    int hour, minute; cin >> hour >> minute;
-    if (hour < 0 || hour >= 24 || minute < 0 || minute >= 60) {
-        cout << "Invalid\\n";
-        return 0;
-    }
-    
-    if (hour == 0) {
-        cout << "12:" << (minute < 10 ? "0" : "") << minute << " AM\\n";
-    } else if (hour < 12) {
-        cout << hour << ":" << (minute < 10 ? "0" : "") << minute << " AM\\n";
-    } else if (hour == 12) {
-        cout << "12:" << (minute < 10 ? "0" : "") << minute << " PM\\n";
-    } else {
-        cout << (hour - 12) << ":" << (minute < 10 ? "0" : "") << minute << " PM\\n";
-    }
+int main(void) {
+    int hour, minute; if (scanf("%d %d", &hour, &minute) != 2) return 0;
+    if (hour < 0 || hour >= 24 || minute < 0 || minute >= 60) { printf("Invalid\\n"); return 0; }
+
+    if (hour == 0)        printf("12:%02d AM\\n", minute);
+    else if (hour < 12)   printf("%d:%02d AM\\n", hour, minute);
+    else if (hour == 12)  printf("12:%02d PM\\n", minute);
+    else                  printf("%d:%02d PM\\n", hour - 12, minute);
     return 0;
 }`},
 
         {
           title: "Solution 16 — Discount Calculator", html: `
-    <h2>Solution: Discount Calculator</h2>
-    <p class="lede">Tiered discount system based on purchase amount.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Discount Calculator</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    double amount; cin >> amount;
-    if (amount < 0) {
-        cout << "Invalid\\n";
-        return 0;
-    }
-    
-    double discount = 0;
-    if (amount >= 1000) {
-        discount = 0.20; // 20% off
-    } else if (amount >= 500) {
-        discount = 0.15; // 15% off
-    } else if (amount >= 100) {
-        discount = 0.10; // 10% off
-    } else {
-        discount = 0.05; // 5% off
-    }
-    
-    double final_amount = amount * (1 - discount);
-    cout << final_amount << "\\n";
+int main(void) {
+    double amount; if (scanf("%lf", &amount) != 1) return 0;
+    if (amount < 0) { printf("Invalid\\n"); return 0; }
+    double discount = 0.05;
+    if (amount >= 1000.0) discount = 0.20;
+    else if (amount >= 500.0) discount = 0.15;
+    else if (amount >= 100.0) discount = 0.10;
+    printf("%.6f\\n", amount * (1.0 - discount));
     return 0;
 }`},
 
         {
           title: "Solution 17 — Valid Date", html: `
-    <h2>Solution: Valid Date</h2>
-    <p class="lede">Check if date is valid considering month ranges and leap years.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Valid Date</h2>
+`, code: `#include <stdio.h>
 
-bool isLeapYear(int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-}
+int is_leap(int y){ return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0); }
 
-int main() {
-    int day, month, year; cin >> day >> month >> year;
-    
-    if (year < 1 || month < 1 || month > 12 || day < 1) {
-        cout << "Invalid\\n";
-        return 0;
-    }
-    
-    int daysInMonth[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    if (isLeapYear(year)) daysInMonth[2] = 29;
-    
-    if (day <= daysInMonth[month]) {
-        cout << "Valid\\n";
-    } else {
-        cout << "Invalid\\n";
-    }
+int main(void) {
+    int d, m, y; if (scanf("%d %d %d", &d, &m, &y) != 3) return 0;
+    if (y < 1 || m < 1 || m > 12 || d < 1) { printf("Invalid\\n"); return 0; }
+    int daysInMonth[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+    if (is_leap(y)) daysInMonth[2] = 29;
+    if (d <= daysInMonth[m]) printf("Valid\\n");
+    else printf("Invalid\\n");
     return 0;
 }`},
 
         {
           title: "Solution 18 — Character Classifier", html: `
-    <h2>Solution: Character Classifier</h2>
-    <p class="lede">Classify character as digit, letter, or special using ASCII ranges.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Character Classifier</h2>
+`, code: `#include <stdio.h>
+#include <ctype.h>
 
-int main() {
-    char ch; cin >> ch;
-    
-    if (ch >= '0' && ch <= '9') {
-        cout << "Digit\\n";
-    } else if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
-        cout << "Letter\\n";
-    } else {
-        cout << "Special\\n";
-    }
+int main(void) {
+    int ch = getchar();
+    if (ch == EOF) return 0;
+    if (isdigit(ch)) printf("Digit\\n");
+    else if (isalpha(ch)) printf("Letter\\n");
+    else printf("Special\\n");
     return 0;
 }`},
 
         {
           title: "Solution 19 — Number System", html: `
-    <h2>Solution: Number System</h2>
-    <p class="lede">Identify number system based on prefix/format.</p>
-  `, code: `#include <iostream>
-#include <string>
-using namespace std;
+<h2>Solution: Number System</h2>
+`, code: `#include <stdio.h>
+#include <string.h>
 
-int main() {
-    string num; cin >> num;
-    
-    if (num.length() >= 2 && num[0] == '0' && (num[1] == 'x' || num[1] == 'X')) {
-        cout << "Hexadecimal\\n";
-    } else if (num.length() >= 2 && num[0] == '0' && num[1] == 'b') {
-        cout << "Binary\\n";
-    } else if (num.length() >= 2 && num[0] == '0' && num[1] >= '0' && num[1] <= '7') {
-        cout << "Octal\\n";
-    } else {
-        cout << "Decimal\\n";
-    }
+int main(void) {
+    char num[256]; if (scanf("%255s", num) != 1) return 0;
+    if (strlen(num) >= 2 && num[0]=='0' && (num[1]=='x' || num[1]=='X')) printf("Hexadecimal\\n");
+    else if (strlen(num) >= 2 && num[0]=='0' && num[1]=='b') printf("Binary\\n");
+    else if (strlen(num) >= 2 && num[0]=='0' && num[1]>='0' && num[1]<='7') printf("Octal\\n");
+    else printf("Decimal\\n");
     return 0;
 }`},
 
         {
           title: "Solution 20 — Overflow Detector", html: `
-    <h2>Solution: Overflow Detector</h2>
-    <p class="lede">Check if operation would cause integer overflow before performing it.</p>
-  `, code: `#include <iostream>
-#include <climits>
-using namespace std;
+<h2>Solution: Overflow Detector</h2>
+`, code: `#include <stdio.h>
+#include <limits.h>
 
-int main() {
-    long long a, b; char op; cin >> a >> b >> op;
-    
-    bool overflow = false;
+int main(void) {
+    long long a, b; char op;
+    if (scanf("%lld %lld %c", &a, &b, &op) != 3) return 0;
+
+    int overflow = 0;
     if (op == '+') {
-        if (a > 0 && b > LLONG_MAX - a) overflow = true;
-        if (a < 0 && b < LLONG_MIN - a) overflow = true;
+        if ((a > 0 && b > LLONG_MAX - a) || (a < 0 && b < LLONG_MIN - a)) overflow = 1;
     } else if (op == '*') {
-        if (a != 0 && (b > LLONG_MAX / a || b < LLONG_MIN / a)) overflow = true;
-    }
-    
-    if (overflow) {
-        cout << "Overflow\\n";
+        if (a != 0) {
+            if (a == -1 && b == LLONG_MIN) overflow = 1;
+            else if (b > LLONG_MAX / a || b < LLONG_MIN / a) overflow = 1;
+        }
     } else {
+        printf("Overflow\\n"); return 0;
+    }
+
+    if (overflow) printf("Overflow\\n");
+    else {
         long long result = (op == '+') ? a + b : a * b;
-        cout << result << "\\n";
+        printf("%lld\\n", result);
     }
     return 0;
 }`},
 
         {
           title: "Solution 21 — Bit Counter", html: `
-    <h2>Solution: Bit Counter</h2>
-    <p class="lede">Count number of set bits (1s) in binary representation.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Bit Counter</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    long long n; cin >> n;
+int main(void) {
+    unsigned long long n; if (scanf("%llu", &n) != 1) return 0;
     int count = 0;
-    
-    while (n > 0) {
-        count += (n & 1);
-        n >>= 1;
-    }
-    
-    cout << count << "\\n";
+    while (n) { count += (n & 1ULL); n >>= 1; }
+    printf("%d\\n", count);
     return 0;
 }`},
 
         {
           title: "Solution 22 — Password Strength", html: `
-    <h2>Solution: Password Strength</h2>
-    <p class="lede">Multi-criteria password validation with different strength levels.</p>
-  `, code: `#include <iostream>
-#include <string>
-using namespace std;
+<h2>Solution: Password Strength</h2>
+`, code: `#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-int main() {
-    string password; cin >> password;
-    
-    bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
-    for (char c : password) {
-        if (c >= 'A' && c <= 'Z') hasUpper = true;
-        else if (c >= 'a' && c <= 'z') hasLower = true;
-        else if (c >= '0' && c <= '9') hasDigit = true;
-        else hasSpecial = true;
+int main(void) {
+    char pw[256]; if (scanf("%255s", pw) != 1) return 0;
+    int hasUpper=0, hasLower=0, hasDigit=0, hasSpecial=0;
+    for (size_t i=0; pw[i]; ++i) {
+        unsigned char c = (unsigned char)pw[i];
+        if (isupper(c)) hasUpper=1;
+        else if (islower(c)) hasLower=1;
+        else if (isdigit(c)) hasDigit=1;
+        else hasSpecial=1;
     }
-    
     int criteria = hasUpper + hasLower + hasDigit + hasSpecial;
-    if (password.length() < 6) {
-        cout << "Weak\\n";
-    } else if (password.length() >= 8 && criteria >= 3) {
-        cout << "Strong\\n";
-    } else {
-        cout << "Medium\\n";
-    }
+    size_t len = strlen(pw);
+    if (len < 6) printf("Weak\\n");
+    else if (len >= 8 && criteria >= 3) printf("Strong\\n");
+    else printf("Medium\\n");
     return 0;
 }`},
 
         {
           title: "Solution 23 — Operator Precedence", html: `
-    <h2>Solution: Operator Precedence</h2>
-    <p class="lede">Predict results of expressions with multiple operators.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Operator Precedence</h2>
+`, code: `#include <stdio.h>
 
-int main() {
+int main(void) {
     int a = 5, b = 3, c = 2;
-    
-    // Test various precedence cases
-    cout << (a + b * c) << "\\n";        // 11 (* before +)
-    cout << ((a + b) * c) << "\\n";      // 16 (parentheses first)
-    cout << (a > b && b > c) << "\\n";   // 1 (both comparisons true)
-    cout << (a == 5 || b == 2 && c == 1) << "\\n"; // 1 (&& before ||)
-    cout << (++a * b--) << "\\n";        // 18 (a becomes 6, b used as 3)
-    
+    printf("%d\\n", a + b * c);             // 11
+    printf("%d\\n", (a + b) * c);           // 16
+    printf("%d\\n", (a > b) && (b > c));    // 1
+    printf("%d\\n", (a == 5) || (b == 2 && c == 1)); // 1
+    ++a; /* a=6 */
+    printf("%d\\n", a * b--);               // 18 (b used as 3, then decremented)
     return 0;
 }`},
 
         {
           title: "Solution 24 — Type Casting Puzzle", html: `
-    <h2>Solution: Type Casting Puzzle</h2>
-    <p class="lede">Understand results of various type conversions.</p>
-  `, code: `#include <iostream>
-using namespace std;
+<h2>Solution: Type Casting Puzzle</h2>
+`, code: `#include <stdio.h>
 
-int main() {
-    // Integer to character
+int main(void) {
     int num = 65;
     char ch = (char)num;
-    cout << ch << "\\n";                 // A
-    
-    // Character to integer
+    printf("%c\\n", ch);            // A
+
     char letter = 'B';
-    int ascii = (int)letter;
-    cout << ascii << "\\n";              // 66
-    
-    // Float to int truncation
+    int ascii = (unsigned char)letter;
+    printf("%d\\n", ascii);         // 66
+
     double pi = 3.14159;
     int truncated = (int)pi;
-    cout << truncated << "\\n";          // 3
-    
-    // Boolean arithmetic
-    bool flag = true;
-    cout << (flag + 5) << "\\n";         // 6
-    
-    // Overflow demonstration
-    char small = 200;
-    cout << (int)small << "\\n";         // -56 (if char is signed)
-    
+    printf("%d\\n", truncated);     // 3
+
+    int t = 1; /* true as 1 in C */
+    printf("%d\\n", t + 5);         // 6
+
+    char small = (char)200;         // implementation-defined if char is signed
+    printf("%d\\n", (int)(signed char)small);
     return 0;
 }`},
 
         {
           title: "Teaching Tips & Common Mistakes", html: `
-    <h2>Teaching Tips & Common Pitfalls</h2>
-    <ul>
-      <li>Always initialize variables before use</li>
-      <li>Use long long for large integer calculations</li>
-      <li>Check for division by zero before dividing</li>
-      <li>Parenthesize complex boolean expressions for clarity</li>
-      <li>Handle edge cases (negative inputs, zero, out-of-range)</li>
-      <li>Use appropriate data types for the problem domain</li>
-      <li>Be careful with floating-point comparisons</li>
-      <li>Test boundary conditions thoroughly</li>
-    </ul>
-  `},
+<h2>Teaching Tips & Common Pitfalls</h2>
+<ul>
+  <li>Always initialize variables before use</li>
+  <li>Use long long for large integer calculations</li>
+  <li>Check for division by zero before dividing</li>
+  <li>Parenthesize complex boolean expressions for clarity</li>
+  <li>Handle edge cases (negative inputs, zero, out-of-range)</li>
+  <li>Use correct scanf/printf format specifiers</li>
+  <li>Be careful with floating-point comparisons</li>
+  <li>Test boundary conditions thoroughly</li>
+</ul>
+`},
 
         {
           title: "Next Steps & Advanced Topics", html: `
-    <h2>Next Steps & Advanced Topics</h2>
-    <ul>
-      <li>Loops: for, while, do-while patterns</li>
-      <li>Functions: parameter passing, return values</li>
-      <li>Arrays and strings: basic operations</li>
-      <li>More advanced conditional patterns</li>
-      <li>Error handling and input validation</li>
-      <li>Basic algorithms and problem-solving strategies</li>
-      <li>Time and space complexity analysis</li>
-      <li>Debugging techniques and tools</li>
-    </ul>
-    <div class="card">
-      <strong>Practice Resources:</strong>
-      <ul>
-        <li>Online judges: Codeforces, AtCoder, LeetCode</li>
-        <li>Practice problems: HackerRank, CodeChef</li>
-        <li>Algorithm books: Competitive Programming series</li>
-      </ul>
-    </div>
-  `}
+<h2>Next Steps & Advanced Topics</h2>
+<ul>
+  <li>Loops: for, while, do-while patterns</li>
+  <li>Functions: parameters, return values</li>
+  <li>Arrays and strings: basics</li>
+  <li>Error handling and input validation</li>
+  <li>Algorithms and problem-solving strategies</li>
+  <li>Time and space complexity</li>
+  <li>Debugging techniques and tools</li>
+</ul>
+<div class="card">
+  <strong>Practice Resources:</strong>
+  <ul>
+    <li>Online judges: Codeforces, AtCoder, LeetCode</li>
+    <li>Practice problems: HackerRank, CodeChef</li>
+    <li>Books: C programming and algorithms texts</li>
+  </ul>
+</div>
+`}
       ];
+
+
+
 
       function renderSlide(idx) {
         const s = slides[idx];
